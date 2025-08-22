@@ -1,13 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { 
-  Ship, 
-  Plane, 
-  Truck, 
-  FileText, 
-  Clock, 
-  Shield, 
-  Users, 
+import SystemWelcome from '../components/SystemWelcome';
+import {
+  Ship,
+  Plane,
+  Truck,
+  FileText,
+  Clock,
+  Shield,
+  Users,
   CheckCircle,
   Star,
   MessageCircle,
@@ -131,7 +132,7 @@ const Home = () => {
       rating: 5
     },
     {
-      name: "فاطمة علي",
+      name: "��اطمة علي",
       company: "مؤسسة الاستيراد والتصدير",
       content: "فريق محترف وخبرة واسعة. نتعامل معهم منذ سنوات ولم نواجه أي مشاكل.",
       rating: 5
@@ -370,7 +371,7 @@ const Home = () => {
             </h2>
             <p className="text-gray-text">نعمل مع أفضل المؤسسات والجهات الحكومية</p>
           </div>
-          
+
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
             {partners.map((partner, index) => (
               <div key={index} className="bg-white rounded-lg p-4 text-center shadow-sm hover:shadow-md transition-shadow">
@@ -383,6 +384,9 @@ const Home = () => {
           </div>
         </div>
       </section>
+
+      {/* System Welcome Section */}
+      <SystemWelcome />
 
       {/* Final CTA Section */}
       <section className="bg-navy-dark text-white section-spacing">
