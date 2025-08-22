@@ -24,6 +24,7 @@ import Consultation from "./pages/Consultation";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
+import AdminDashboard from "./pages/AdminDashboard";
 import Privacy from "./pages/Privacy";
 import Terms from "./pages/Terms";
 import Legal from "./pages/Legal";
@@ -53,7 +54,7 @@ function ProtectedRoute({ children }: { children: React.ReactNode }) {
   return <>{children}</>;
 }
 
-// ��كون توجيه المستخدمين المسجلين بعيداً عن صفحات المصادقة
+// مكون توجيه المستخدمين المسجلين بعيداً عن صفحات المصادقة
 function PublicRoute({ children }: { children: React.ReactNode }) {
   const { isAuthenticated, isLoading } = useAuth();
 
@@ -116,6 +117,14 @@ function AppRoutes() {
         <ProtectedRoute>
           <div className="min-h-screen bg-gray-50 p-6">
             <Dashboard />
+          </div>
+        </ProtectedRoute>
+      } />
+
+      <Route path="/admin" element={
+        <ProtectedRoute>
+          <div className="min-h-screen bg-gray-50 p-6">
+            <AdminDashboard />
           </div>
         </ProtectedRoute>
       } />
