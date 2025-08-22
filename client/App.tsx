@@ -85,93 +85,233 @@ function AppRoutes() {
   return (
     <Routes>
       {/* الصفحات العامة مع Layout */}
-      <Route path="/" element={<Layout><Home /></Layout>} />
-      <Route path="/about" element={<Layout><About /></Layout>} />
-      <Route path="/services" element={<Layout><Services /></Layout>} />
-      <Route path="/contact" element={<Layout><Contact /></Layout>} />
-      <Route path="/blog" element={<Layout><Blog /></Layout>} />
-      <Route path="/faq" element={<Layout><FAQ /></Layout>} />
-      <Route path="/consultation" element={<Layout><Consultation /></Layout>} />
-      <Route path="/privacy" element={<Layout><Privacy /></Layout>} />
-      <Route path="/terms" element={<Layout><Terms /></Layout>} />
-      <Route path="/legal" element={<Layout><Legal /></Layout>} />
+      <Route
+        path="/"
+        element={
+          <Layout>
+            <Home />
+          </Layout>
+        }
+      />
+      <Route
+        path="/about"
+        element={
+          <Layout>
+            <About />
+          </Layout>
+        }
+      />
+      <Route
+        path="/services"
+        element={
+          <Layout>
+            <Services />
+          </Layout>
+        }
+      />
+      <Route
+        path="/contact"
+        element={
+          <Layout>
+            <Contact />
+          </Layout>
+        }
+      />
+      <Route
+        path="/blog"
+        element={
+          <Layout>
+            <Blog />
+          </Layout>
+        }
+      />
+      <Route
+        path="/faq"
+        element={
+          <Layout>
+            <FAQ />
+          </Layout>
+        }
+      />
+      <Route
+        path="/consultation"
+        element={
+          <Layout>
+            <Consultation />
+          </Layout>
+        }
+      />
+      <Route
+        path="/privacy"
+        element={
+          <Layout>
+            <Privacy />
+          </Layout>
+        }
+      />
+      <Route
+        path="/terms"
+        element={
+          <Layout>
+            <Terms />
+          </Layout>
+        }
+      />
+      <Route
+        path="/legal"
+        element={
+          <Layout>
+            <Legal />
+          </Layout>
+        }
+      />
 
       {/* Service Sub-pages */}
-      <Route path="/services/sea" element={<Layout><Services /></Layout>} />
-      <Route path="/services/air" element={<Layout><Services /></Layout>} />
-      <Route path="/services/land" element={<Layout><Services /></Layout>} />
-      <Route path="/services/consultation" element={<Layout><Services /></Layout>} />
-      <Route path="/services/free-zones" element={<Layout><Services /></Layout>} />
-      <Route path="/services/import-export" element={<Layout><Services /></Layout>} />
+      <Route
+        path="/services/sea"
+        element={
+          <Layout>
+            <Services />
+          </Layout>
+        }
+      />
+      <Route
+        path="/services/air"
+        element={
+          <Layout>
+            <Services />
+          </Layout>
+        }
+      />
+      <Route
+        path="/services/land"
+        element={
+          <Layout>
+            <Services />
+          </Layout>
+        }
+      />
+      <Route
+        path="/services/consultation"
+        element={
+          <Layout>
+            <Services />
+          </Layout>
+        }
+      />
+      <Route
+        path="/services/free-zones"
+        element={
+          <Layout>
+            <Services />
+          </Layout>
+        }
+      />
+      <Route
+        path="/services/import-export"
+        element={
+          <Layout>
+            <Services />
+          </Layout>
+        }
+      />
 
       {/* صفحات المصادقة بدون Layout */}
-      <Route path="/login" element={
-        <PublicRoute>
-          <Login />
-        </PublicRoute>
-      } />
-      <Route path="/register" element={
-        <PublicRoute>
-          <Register />
-        </PublicRoute>
-      } />
+      <Route
+        path="/login"
+        element={
+          <PublicRoute>
+            <Login />
+          </PublicRoute>
+        }
+      />
+      <Route
+        path="/register"
+        element={
+          <PublicRoute>
+            <Register />
+          </PublicRoute>
+        }
+      />
 
       {/* الصفحات المحمية مع شريط التنقل */}
-      <Route path="/dashboard" element={
-        <ProtectedRoute>
-          <div className="min-h-screen bg-gray-50">
-            <Navigation />
-            <div className="p-6">
-              <Dashboard />
+      <Route
+        path="/dashboard"
+        element={
+          <ProtectedRoute>
+            <div className="min-h-screen bg-gray-50">
+              <Navigation />
+              <div className="p-6">
+                <Dashboard />
+              </div>
             </div>
-          </div>
-        </ProtectedRoute>
-      } />
+          </ProtectedRoute>
+        }
+      />
 
-      <Route path="/admin" element={
-        <ProtectedRoute>
-          <div className="min-h-screen bg-gray-50">
-            <Navigation />
-            <div className="p-6">
-              <AdminDashboard />
+      <Route
+        path="/admin"
+        element={
+          <ProtectedRoute>
+            <div className="min-h-screen bg-gray-50">
+              <Navigation />
+              <div className="p-6">
+                <AdminDashboard />
+              </div>
             </div>
-          </div>
-        </ProtectedRoute>
-      } />
+          </ProtectedRoute>
+        }
+      />
 
-      <Route path="/cases" element={
-        <ProtectedRoute>
-          <div className="min-h-screen bg-gray-50">
-            <Navigation />
-            <div className="p-6">
-              <CaseManagement />
+      <Route
+        path="/cases"
+        element={
+          <ProtectedRoute>
+            <div className="min-h-screen bg-gray-50">
+              <Navigation />
+              <div className="p-6">
+                <CaseManagement />
+              </div>
             </div>
-          </div>
-        </ProtectedRoute>
-      } />
+          </ProtectedRoute>
+        }
+      />
 
-      <Route path="/messages" element={
-        <ProtectedRoute>
-          <div className="min-h-screen bg-gray-50">
-            <Navigation />
-            <Messages />
-          </div>
-        </ProtectedRoute>
-      } />
-
-      <Route path="/invoices" element={
-        <ProtectedRoute>
-          <div className="min-h-screen bg-gray-50">
-            <Navigation />
-            <div className="p-6">
-              <Invoices />
+      <Route
+        path="/messages"
+        element={
+          <ProtectedRoute>
+            <div className="min-h-screen bg-gray-50">
+              <Navigation />
+              <Messages />
             </div>
-          </div>
-        </ProtectedRoute>
-      } />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/invoices"
+        element={
+          <ProtectedRoute>
+            <div className="min-h-screen bg-gray-50">
+              <Navigation />
+              <div className="p-6">
+                <Invoices />
+              </div>
+            </div>
+          </ProtectedRoute>
+        }
+      />
 
       {/* 404 Catch-all - MUST be last */}
-      <Route path="*" element={<Layout><NotFound /></Layout>} />
+      <Route
+        path="*"
+        element={
+          <Layout>
+            <NotFound />
+          </Layout>
+        }
+      />
     </Routes>
   );
 }

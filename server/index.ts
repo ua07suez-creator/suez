@@ -2,7 +2,12 @@ import "dotenv/config";
 import express from "express";
 import cors from "cors";
 import { handleDemo } from "./routes/demo";
-import { loginHandler, registerHandler, authenticateToken, getCurrentUserHandler } from "./routes/auth";
+import {
+  loginHandler,
+  registerHandler,
+  authenticateToken,
+  getCurrentUserHandler,
+} from "./routes/auth";
 import { testConnection, testUsers, simpleLogin } from "./routes/test-auth";
 
 export function createServer() {

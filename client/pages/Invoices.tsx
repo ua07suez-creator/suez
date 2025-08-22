@@ -1,16 +1,42 @@
-import React, { useState, useEffect } from 'react';
-import { useAuth } from '../contexts/AuthContext';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card';
-import { Button } from '../components/ui/button';
-import { Badge } from '../components/ui/badge';
-import { Input } from '../components/ui/input';
-import { Label } from '../components/ui/label';
-import { Textarea } from '../components/ui/textarea';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../components/ui/select';
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '../components/ui/dialog';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../components/ui/table';
-import { Alert, AlertDescription } from '../components/ui/alert';
-import { 
+import React, { useState, useEffect } from "react";
+import { useAuth } from "../contexts/AuthContext";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "../components/ui/card";
+import { Button } from "../components/ui/button";
+import { Badge } from "../components/ui/badge";
+import { Input } from "../components/ui/input";
+import { Label } from "../components/ui/label";
+import { Textarea } from "../components/ui/textarea";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../components/ui/select";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "../components/ui/dialog";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "../components/ui/table";
+import { Alert, AlertDescription } from "../components/ui/alert";
+import {
   Plus,
   Search,
   Filter,
@@ -24,9 +50,9 @@ import {
   XCircle,
   Send,
   Edit,
-  Trash2
-} from 'lucide-react';
-import { Invoice, InvoiceItem } from '@shared/customs-types';
+  Trash2,
+} from "lucide-react";
+import { Invoice, InvoiceItem } from "@shared/customs-types";
 
 interface InvoiceWithDetails extends Invoice {
   client_name: string;
@@ -53,26 +79,27 @@ interface NewInvoiceForm {
 export default function Invoices() {
   const { user } = useAuth();
   const [invoices, setInvoices] = useState<InvoiceWithDetails[]>([]);
-  const [filteredInvoices, setFilteredInvoices] = useState<InvoiceWithDetails[]>([]);
-  const [selectedInvoice, setSelectedInvoice] = useState<InvoiceWithDetails | null>(null);
+  const [filteredInvoices, setFilteredInvoices] = useState<
+    InvoiceWithDetails[]
+  >([]);
+  const [selectedInvoice, setSelectedInvoice] =
+    useState<InvoiceWithDetails | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [statusFilter, setStatusFilter] = useState('all');
+  const [searchTerm, setSearchTerm] = useState("");
+  const [statusFilter, setStatusFilter] = useState("all");
   const [isNewInvoiceOpen, setIsNewInvoiceOpen] = useState(false);
   const [isInvoiceDetailsOpen, setIsInvoiceDetailsOpen] = useState(false);
 
   const [newInvoiceForm, setNewInvoiceForm] = useState<NewInvoiceForm>({
-    case_id: '',
-    client_id: '',
-    tax_amount: '14', // الضريبة المصرية 14%
-    discount_amount: '0',
-    issue_date: new Date().toISOString().split('T')[0],
-    due_date: '',
-    payment_method: '',
-    notes: '',
-    items: [
-      { description: '', quantity: '1', unit_price: '0' }
-    ]
+    case_id: "",
+    client_id: "",
+    tax_amount: "14", // الضريبة المصرية 14%
+    discount_amount: "0",
+    issue_date: new Date().toISOString().split("T")[0],
+    due_date: "",
+    payment_method: "",
+    notes: "",
+    items: [{ description: "", quantity: "1", unit_price: "0" }],
   });
 
   useEffect(() => {
@@ -81,118 +108,118 @@ export default function Invoices() {
       const mockInvoices: InvoiceWithDetails[] = [
         {
           id: 1,
-          invoice_number: 'INV-2024-001',
+          invoice_number: "INV-2024-001",
           case_id: 1,
           client_id: 1,
-          client_name: 'شركة النصر للتجارة',
-          case_number: 'CU-2024-001',
+          client_name: "شركة النصر للتجارة",
+          case_number: "CU-2024-001",
           total_amount: 5750,
-          currency: 'EGP',
+          currency: "EGP",
           tax_amount: 700,
           discount_amount: 0,
-          payment_status: 'pending',
-          issue_date: '2024-01-15',
-          due_date: '2024-02-15',
+          payment_status: "pending",
+          issue_date: "2024-01-15",
+          due_date: "2024-02-15",
           payment_date: undefined,
           payment_method: undefined,
-          notes: 'رسوم التخليص الجمركي للشحنة المستوردة',
+          notes: "رسوم التخليص الجمركي للشحنة المستوردة",
           created_by: 2,
-          created_at: '2024-01-15T10:00:00',
-          updated_at: '2024-01-16T14:30:00',
+          created_at: "2024-01-15T10:00:00",
+          updated_at: "2024-01-16T14:30:00",
           items: [
             {
               id: 1,
               invoice_id: 1,
-              description: 'رسوم التخليص الجمركي',
+              description: "رسوم التخليص الجمركي",
               quantity: 1,
               unit_price: 4000,
               total_price: 4000,
-              created_at: '2024-01-15T10:00:00'
+              created_at: "2024-01-15T10:00:00",
             },
             {
               id: 2,
               invoice_id: 1,
-              description: 'رسوم النقل والمناولة',
+              description: "رسوم النقل والمناولة",
               quantity: 1,
               unit_price: 1050,
               total_price: 1050,
-              created_at: '2024-01-15T10:00:00'
-            }
-          ]
+              created_at: "2024-01-15T10:00:00",
+            },
+          ],
         },
         {
           id: 2,
-          invoice_number: 'INV-2024-002',
+          invoice_number: "INV-2024-002",
           case_id: 2,
           client_id: 2,
-          client_name: 'أحمد محمد للاستيراد',
-          case_number: 'CU-2024-002',
+          client_name: "أحمد محمد للاستيراد",
+          case_number: "CU-2024-002",
           total_amount: 3420,
-          currency: 'EGP',
+          currency: "EGP",
           tax_amount: 420,
           discount_amount: 200,
-          payment_status: 'paid',
-          issue_date: '2024-01-10',
-          due_date: '2024-02-10',
-          payment_date: '2024-01-25',
-          payment_method: 'bank_transfer',
-          notes: 'تم السداد بالتحويل البنكي',
+          payment_status: "paid",
+          issue_date: "2024-01-10",
+          due_date: "2024-02-10",
+          payment_date: "2024-01-25",
+          payment_method: "bank_transfer",
+          notes: "تم السداد بالتحويل البنكي",
           created_by: 2,
-          created_at: '2024-01-10T09:00:00',
-          updated_at: '2024-01-25T11:15:00',
+          created_at: "2024-01-10T09:00:00",
+          updated_at: "2024-01-25T11:15:00",
           items: [
             {
               id: 3,
               invoice_id: 2,
-              description: 'رسوم التخليص الجمركي',
+              description: "رسوم التخليص الجمركي",
               quantity: 1,
               unit_price: 3200,
               total_price: 3200,
-              created_at: '2024-01-10T09:00:00'
-            }
-          ]
+              created_at: "2024-01-10T09:00:00",
+            },
+          ],
         },
         {
           id: 3,
-          invoice_number: 'INV-2024-003',
+          invoice_number: "INV-2024-003",
           case_id: 3,
           client_id: 3,
-          client_name: 'شركة المستقبل',
-          case_number: 'CU-2024-003',
+          client_name: "شركة المستقبل",
+          case_number: "CU-2024-003",
           total_amount: 8550,
-          currency: 'EGP',
+          currency: "EGP",
           tax_amount: 1050,
           discount_amount: 500,
-          payment_status: 'overdue',
-          issue_date: '2024-01-05',
-          due_date: '2024-01-20',
+          payment_status: "overdue",
+          issue_date: "2024-01-05",
+          due_date: "2024-01-20",
           payment_date: undefined,
           payment_method: undefined,
-          notes: 'فاتورة متأخرة - يتطلب متابعة',
+          notes: "فاتورة متأخرة - يتطلب متابعة",
           created_by: 2,
-          created_at: '2024-01-05T08:00:00',
-          updated_at: '2024-01-12T16:45:00',
+          created_at: "2024-01-05T08:00:00",
+          updated_at: "2024-01-12T16:45:00",
           items: [
             {
               id: 4,
               invoice_id: 3,
-              description: 'رسوم التخليص الجمركي',
+              description: "رسوم التخليص الجمركي",
               quantity: 1,
               unit_price: 6000,
               total_price: 6000,
-              created_at: '2024-01-05T08:00:00'
+              created_at: "2024-01-05T08:00:00",
             },
             {
               id: 5,
               invoice_id: 3,
-              description: 'رسوم التخزين',
+              description: "رسوم التخزين",
               quantity: 5,
               unit_price: 400,
               total_price: 2000,
-              created_at: '2024-01-05T08:00:00'
-            }
-          ]
-        }
+              created_at: "2024-01-05T08:00:00",
+            },
+          ],
+        },
       ];
 
       setInvoices(mockInvoices);
@@ -206,15 +233,22 @@ export default function Invoices() {
     let filtered = invoices;
 
     if (searchTerm) {
-      filtered = filtered.filter(invoice => 
-        invoice.invoice_number.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        invoice.client_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        invoice.case_number.toLowerCase().includes(searchTerm.toLowerCase())
+      filtered = filtered.filter(
+        (invoice) =>
+          invoice.invoice_number
+            .toLowerCase()
+            .includes(searchTerm.toLowerCase()) ||
+          invoice.client_name
+            .toLowerCase()
+            .includes(searchTerm.toLowerCase()) ||
+          invoice.case_number.toLowerCase().includes(searchTerm.toLowerCase()),
       );
     }
 
-    if (statusFilter !== 'all') {
-      filtered = filtered.filter(invoice => invoice.payment_status === statusFilter);
+    if (statusFilter !== "all") {
+      filtered = filtered.filter(
+        (invoice) => invoice.payment_status === statusFilter,
+      );
     }
 
     setFilteredInvoices(filtered);
@@ -222,41 +256,47 @@ export default function Invoices() {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'paid':
-        return 'bg-green-100 text-green-800';
-      case 'pending':
-        return 'bg-yellow-100 text-yellow-800';
-      case 'partial':
-        return 'bg-blue-100 text-blue-800';
-      case 'overdue':
-        return 'bg-red-100 text-red-800';
-      case 'cancelled':
-        return 'bg-gray-100 text-gray-800';
+      case "paid":
+        return "bg-green-100 text-green-800";
+      case "pending":
+        return "bg-yellow-100 text-yellow-800";
+      case "partial":
+        return "bg-blue-100 text-blue-800";
+      case "overdue":
+        return "bg-red-100 text-red-800";
+      case "cancelled":
+        return "bg-gray-100 text-gray-800";
       default:
-        return 'bg-gray-100 text-gray-800';
+        return "bg-gray-100 text-gray-800";
     }
   };
 
   const getStatusLabel = (status: string) => {
     switch (status) {
-      case 'paid': return 'مدفوعة';
-      case 'pending': return 'معلقة';
-      case 'partial': return 'مدفوعة جزئياً';
-      case 'overdue': return 'متأخرة';
-      case 'cancelled': return 'ملغية';
-      default: return status;
+      case "paid":
+        return "مدفوعة";
+      case "pending":
+        return "معلقة";
+      case "partial":
+        return "مدفوعة جزئياً";
+      case "overdue":
+        return "متأخرة";
+      case "cancelled":
+        return "ملغية";
+      default:
+        return status;
     }
   };
 
   const getStatusIcon = (status: string) => {
     switch (status) {
-      case 'paid':
+      case "paid":
         return <CheckCircle className="h-4 w-4 text-green-600" />;
-      case 'pending':
+      case "pending":
         return <Clock className="h-4 w-4 text-yellow-600" />;
-      case 'overdue':
+      case "overdue":
         return <AlertTriangle className="h-4 w-4 text-red-600" />;
-      case 'cancelled':
+      case "cancelled":
         return <XCircle className="h-4 w-4 text-gray-600" />;
       default:
         return <Clock className="h-4 w-4 text-gray-600" />;
@@ -264,25 +304,29 @@ export default function Invoices() {
   };
 
   const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat('ar-EG', {
-      style: 'currency',
-      currency: 'EGP'
+    return new Intl.NumberFormat("ar-EG", {
+      style: "currency",
+      currency: "EGP",
     }).format(amount);
   };
 
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('ar-EG');
+    return new Date(dateString).toLocaleDateString("ar-EG");
   };
 
   const calculateSubtotal = () => {
     return newInvoiceForm.items.reduce((sum, item) => {
-      return sum + (parseFloat(item.quantity) || 0) * (parseFloat(item.unit_price) || 0);
+      return (
+        sum +
+        (parseFloat(item.quantity) || 0) * (parseFloat(item.unit_price) || 0)
+      );
     }, 0);
   };
 
   const calculateTotal = () => {
     const subtotal = calculateSubtotal();
-    const taxAmount = subtotal * (parseFloat(newInvoiceForm.tax_amount) || 0) / 100;
+    const taxAmount =
+      (subtotal * (parseFloat(newInvoiceForm.tax_amount) || 0)) / 100;
     const discountAmount = parseFloat(newInvoiceForm.discount_amount) || 0;
     return subtotal + taxAmount - discountAmount;
   };
@@ -290,14 +334,17 @@ export default function Invoices() {
   const addInvoiceItem = () => {
     setNewInvoiceForm({
       ...newInvoiceForm,
-      items: [...newInvoiceForm.items, { description: '', quantity: '1', unit_price: '0' }]
+      items: [
+        ...newInvoiceForm.items,
+        { description: "", quantity: "1", unit_price: "0" },
+      ],
     });
   };
 
   const removeInvoiceItem = (index: number) => {
     setNewInvoiceForm({
       ...newInvoiceForm,
-      items: newInvoiceForm.items.filter((_, i) => i !== index)
+      items: newInvoiceForm.items.filter((_, i) => i !== index),
     });
   };
 
@@ -310,20 +357,20 @@ export default function Invoices() {
   const handleCreateInvoice = (e: React.FormEvent) => {
     e.preventDefault();
     // TODO: إرسال البيانات إلى API
-    console.log('New invoice data:', newInvoiceForm);
+    console.log("New invoice data:", newInvoiceForm);
     setIsNewInvoiceOpen(false);
-    
+
     // إعادة تعيين النموذج
     setNewInvoiceForm({
-      case_id: '',
-      client_id: '',
-      tax_amount: '14',
-      discount_amount: '0',
-      issue_date: new Date().toISOString().split('T')[0],
-      due_date: '',
-      payment_method: '',
-      notes: '',
-      items: [{ description: '', quantity: '1', unit_price: '0' }]
+      case_id: "",
+      client_id: "",
+      tax_amount: "14",
+      discount_amount: "0",
+      issue_date: new Date().toISOString().split("T")[0],
+      due_date: "",
+      payment_method: "",
+      notes: "",
+      items: [{ description: "", quantity: "1", unit_price: "0" }],
     });
   };
 
@@ -334,7 +381,7 @@ export default function Invoices() {
 
   const handleSendPaymentReminder = (invoiceId: number) => {
     // TODO: إرسال تذكير دفع
-    console.log('Sending payment reminder for invoice:', invoiceId);
+    console.log("Sending payment reminder for invoice:", invoiceId);
   };
 
   if (isLoading) {
@@ -354,9 +401,11 @@ export default function Invoices() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-gray-900">إدارة الفواتير</h1>
-          <p className="text-gray-600">إدارة فواتير التخليص الجمركي والمدفوعات</p>
+          <p className="text-gray-600">
+            إدارة فواتير التخليص الجمركي والمدفوعات
+          </p>
         </div>
-        
+
         <Dialog open={isNewInvoiceOpen} onOpenChange={setIsNewInvoiceOpen}>
           <DialogTrigger asChild>
             <Button className="btn-navy">
@@ -377,25 +426,35 @@ export default function Invoices() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="case_id">الملف *</Label>
-                  <Select value={newInvoiceForm.case_id} onValueChange={(value) => 
-                    setNewInvoiceForm({...newInvoiceForm, case_id: value})
-                  }>
+                  <Select
+                    value={newInvoiceForm.case_id}
+                    onValueChange={(value) =>
+                      setNewInvoiceForm({ ...newInvoiceForm, case_id: value })
+                    }
+                  >
                     <SelectTrigger>
                       <SelectValue placeholder="اختر الملف" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="1">CU-2024-001 - شركة النصر</SelectItem>
+                      <SelectItem value="1">
+                        CU-2024-001 - شركة النصر
+                      </SelectItem>
                       <SelectItem value="2">CU-2024-002 - أحمد محمد</SelectItem>
-                      <SelectItem value="3">CU-2024-003 - شركة المستقبل</SelectItem>
+                      <SelectItem value="3">
+                        CU-2024-003 - شركة المستقبل
+                      </SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
 
                 <div className="space-y-2">
                   <Label htmlFor="client_id">العميل *</Label>
-                  <Select value={newInvoiceForm.client_id} onValueChange={(value) => 
-                    setNewInvoiceForm({...newInvoiceForm, client_id: value})
-                  }>
+                  <Select
+                    value={newInvoiceForm.client_id}
+                    onValueChange={(value) =>
+                      setNewInvoiceForm({ ...newInvoiceForm, client_id: value })
+                    }
+                  >
                     <SelectTrigger>
                       <SelectValue placeholder="اختر العميل" />
                     </SelectTrigger>
@@ -413,7 +472,12 @@ export default function Invoices() {
                     id="issue_date"
                     type="date"
                     value={newInvoiceForm.issue_date}
-                    onChange={(e) => setNewInvoiceForm({...newInvoiceForm, issue_date: e.target.value})}
+                    onChange={(e) =>
+                      setNewInvoiceForm({
+                        ...newInvoiceForm,
+                        issue_date: e.target.value,
+                      })
+                    }
                     required
                   />
                 </div>
@@ -424,7 +488,12 @@ export default function Invoices() {
                     id="due_date"
                     type="date"
                     value={newInvoiceForm.due_date}
-                    onChange={(e) => setNewInvoiceForm({...newInvoiceForm, due_date: e.target.value})}
+                    onChange={(e) =>
+                      setNewInvoiceForm({
+                        ...newInvoiceForm,
+                        due_date: e.target.value,
+                      })
+                    }
                     required
                   />
                 </div>
@@ -433,8 +502,14 @@ export default function Invoices() {
               {/* بنود الفاتورة */}
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
-                  <h3 className="text-lg font-medium text-gray-900">بنود الفاتورة</h3>
-                  <Button type="button" variant="outline" onClick={addInvoiceItem}>
+                  <h3 className="text-lg font-medium text-gray-900">
+                    بنود الفاتورة
+                  </h3>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={addInvoiceItem}
+                  >
                     <Plus className="w-4 h-4 ml-2" />
                     إضافة بند
                   </Button>
@@ -442,49 +517,69 @@ export default function Invoices() {
 
                 <div className="space-y-3">
                   {newInvoiceForm.items.map((item, index) => (
-                    <div key={index} className="grid grid-cols-12 gap-2 items-end">
+                    <div
+                      key={index}
+                      className="grid grid-cols-12 gap-2 items-end"
+                    >
                       <div className="col-span-5">
                         <Label htmlFor={`description_${index}`}>الوصف</Label>
                         <Input
                           id={`description_${index}`}
                           value={item.description}
-                          onChange={(e) => updateInvoiceItem(index, 'description', e.target.value)}
+                          onChange={(e) =>
+                            updateInvoiceItem(
+                              index,
+                              "description",
+                              e.target.value,
+                            )
+                          }
                           placeholder="وصف الخدمة"
                         />
                       </div>
-                      
+
                       <div className="col-span-2">
                         <Label htmlFor={`quantity_${index}`}>الكمية</Label>
                         <Input
                           id={`quantity_${index}`}
                           type="number"
                           value={item.quantity}
-                          onChange={(e) => updateInvoiceItem(index, 'quantity', e.target.value)}
+                          onChange={(e) =>
+                            updateInvoiceItem(index, "quantity", e.target.value)
+                          }
                           min="0"
                           step="0.01"
                         />
                       </div>
-                      
+
                       <div className="col-span-2">
                         <Label htmlFor={`unit_price_${index}`}>السعر</Label>
                         <Input
                           id={`unit_price_${index}`}
                           type="number"
                           value={item.unit_price}
-                          onChange={(e) => updateInvoiceItem(index, 'unit_price', e.target.value)}
+                          onChange={(e) =>
+                            updateInvoiceItem(
+                              index,
+                              "unit_price",
+                              e.target.value,
+                            )
+                          }
                           min="0"
                           step="0.01"
                         />
                       </div>
-                      
+
                       <div className="col-span-2">
                         <Label>الإجمالي</Label>
                         <Input
-                          value={formatCurrency((parseFloat(item.quantity) || 0) * (parseFloat(item.unit_price) || 0))}
+                          value={formatCurrency(
+                            (parseFloat(item.quantity) || 0) *
+                              (parseFloat(item.unit_price) || 0),
+                          )}
                           disabled
                         />
                       </div>
-                      
+
                       <div className="col-span-1">
                         {newInvoiceForm.items.length > 1 && (
                           <Button
@@ -510,7 +605,12 @@ export default function Invoices() {
                     id="tax_amount"
                     type="number"
                     value={newInvoiceForm.tax_amount}
-                    onChange={(e) => setNewInvoiceForm({...newInvoiceForm, tax_amount: e.target.value})}
+                    onChange={(e) =>
+                      setNewInvoiceForm({
+                        ...newInvoiceForm,
+                        tax_amount: e.target.value,
+                      })
+                    }
                     min="0"
                     max="100"
                     step="0.01"
@@ -523,7 +623,12 @@ export default function Invoices() {
                     id="discount_amount"
                     type="number"
                     value={newInvoiceForm.discount_amount}
-                    onChange={(e) => setNewInvoiceForm({...newInvoiceForm, discount_amount: e.target.value})}
+                    onChange={(e) =>
+                      setNewInvoiceForm({
+                        ...newInvoiceForm,
+                        discount_amount: e.target.value,
+                      })
+                    }
                     min="0"
                     step="0.01"
                   />
@@ -544,14 +649,23 @@ export default function Invoices() {
                 <Textarea
                   id="notes"
                   value={newInvoiceForm.notes}
-                  onChange={(e) => setNewInvoiceForm({...newInvoiceForm, notes: e.target.value})}
+                  onChange={(e) =>
+                    setNewInvoiceForm({
+                      ...newInvoiceForm,
+                      notes: e.target.value,
+                    })
+                  }
                   placeholder="أي ملاحظات إضافية"
                   rows={3}
                 />
               </div>
 
               <div className="flex justify-end space-x-2 space-x-reverse">
-                <Button type="button" variant="outline" onClick={() => setIsNewInvoiceOpen(false)}>
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => setIsNewInvoiceOpen(false)}
+                >
                   إلغاء
                 </Button>
                 <Button type="submit" className="btn-navy">
@@ -572,8 +686,12 @@ export default function Invoices() {
                 <DollarSign className="h-6 w-6 text-blue-600" />
               </div>
               <div className="mr-4">
-                <p className="text-sm font-medium text-gray-600">إجمالي الفواتير</p>
-                <p className="text-2xl font-bold text-gray-900">{invoices.length}</p>
+                <p className="text-sm font-medium text-gray-600">
+                  إجمالي الفواتير
+                </p>
+                <p className="text-2xl font-bold text-gray-900">
+                  {invoices.length}
+                </p>
               </div>
             </div>
           </CardContent>
@@ -588,7 +706,10 @@ export default function Invoices() {
               <div className="mr-4">
                 <p className="text-sm font-medium text-gray-600">مدفوعة</p>
                 <p className="text-2xl font-bold text-gray-900">
-                  {invoices.filter(inv => inv.payment_status === 'paid').length}
+                  {
+                    invoices.filter((inv) => inv.payment_status === "paid")
+                      .length
+                  }
                 </p>
               </div>
             </div>
@@ -604,7 +725,10 @@ export default function Invoices() {
               <div className="mr-4">
                 <p className="text-sm font-medium text-gray-600">معلقة</p>
                 <p className="text-2xl font-bold text-gray-900">
-                  {invoices.filter(inv => inv.payment_status === 'pending').length}
+                  {
+                    invoices.filter((inv) => inv.payment_status === "pending")
+                      .length
+                  }
                 </p>
               </div>
             </div>
@@ -620,7 +744,10 @@ export default function Invoices() {
               <div className="mr-4">
                 <p className="text-sm font-medium text-gray-600">متأخرة</p>
                 <p className="text-2xl font-bold text-gray-900">
-                  {invoices.filter(inv => inv.payment_status === 'overdue').length}
+                  {
+                    invoices.filter((inv) => inv.payment_status === "overdue")
+                      .length
+                  }
                 </p>
               </div>
             </div>
@@ -643,7 +770,7 @@ export default function Invoices() {
                 />
               </div>
             </div>
-            
+
             <Select value={statusFilter} onValueChange={setStatusFilter}>
               <SelectTrigger className="w-48">
                 <SelectValue placeholder="تصفية حسب الحالة" />
@@ -708,23 +835,24 @@ export default function Invoices() {
                   </TableCell>
                   <TableCell>
                     <div className="flex items-center space-x-2 space-x-reverse">
-                      <Button 
-                        variant="outline" 
+                      <Button
+                        variant="outline"
                         size="sm"
                         onClick={() => handleViewInvoice(invoice)}
                       >
                         <Eye className="h-4 w-4 ml-1" />
                         عرض
                       </Button>
-                      
+
                       <Button variant="outline" size="sm">
                         <Download className="h-4 w-4 ml-1" />
                         تحميل
                       </Button>
-                      
-                      {invoice.payment_status === 'pending' || invoice.payment_status === 'overdue' ? (
-                        <Button 
-                          variant="outline" 
+
+                      {invoice.payment_status === "pending" ||
+                      invoice.payment_status === "overdue" ? (
+                        <Button
+                          variant="outline"
                           size="sm"
                           onClick={() => handleSendPaymentReminder(invoice.id)}
                         >
@@ -738,7 +866,7 @@ export default function Invoices() {
               ))}
             </TableBody>
           </Table>
-          
+
           {filteredInvoices.length === 0 && (
             <div className="text-center py-8 text-gray-500">
               لا توجد فواتير مطابقة لمعايير البحث
@@ -748,12 +876,17 @@ export default function Invoices() {
       </Card>
 
       {/* نافذة تفاصيل الفاتورة */}
-      <Dialog open={isInvoiceDetailsOpen} onOpenChange={setIsInvoiceDetailsOpen}>
+      <Dialog
+        open={isInvoiceDetailsOpen}
+        onOpenChange={setIsInvoiceDetailsOpen}
+      >
         <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
           {selectedInvoice && (
             <>
               <DialogHeader>
-                <DialogTitle>فاتورة {selectedInvoice.invoice_number}</DialogTitle>
+                <DialogTitle>
+                  فاتورة {selectedInvoice.invoice_number}
+                </DialogTitle>
                 <DialogDescription>
                   تفاصيل الفاتورة ومعلومات الدفع
                 </DialogDescription>
@@ -763,11 +896,15 @@ export default function Invoices() {
                 {/* معلومات الفاتورة */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-3">
-                    <h4 className="font-medium text-gray-900">معلومات الفاتورة</h4>
+                    <h4 className="font-medium text-gray-900">
+                      معلومات الفاتورة
+                    </h4>
                     <div className="space-y-2 text-sm">
                       <div className="flex justify-between">
                         <span className="text-gray-600">رقم الفاتورة:</span>
-                        <span className="font-medium">{selectedInvoice.invoice_number}</span>
+                        <span className="font-medium">
+                          {selectedInvoice.invoice_number}
+                        </span>
                       </div>
                       <div className="flex justify-between">
                         <span className="text-gray-600">تاريخ الإصدار:</span>
@@ -780,18 +917,24 @@ export default function Invoices() {
                       {selectedInvoice.payment_date && (
                         <div className="flex justify-between">
                           <span className="text-gray-600">تاريخ الدفع:</span>
-                          <span>{formatDate(selectedInvoice.payment_date)}</span>
+                          <span>
+                            {formatDate(selectedInvoice.payment_date)}
+                          </span>
                         </div>
                       )}
                     </div>
                   </div>
 
                   <div className="space-y-3">
-                    <h4 className="font-medium text-gray-900">معلومات العميل</h4>
+                    <h4 className="font-medium text-gray-900">
+                      معلومات العميل
+                    </h4>
                     <div className="space-y-2 text-sm">
                       <div className="flex justify-between">
                         <span className="text-gray-600">العميل:</span>
-                        <span className="font-medium">{selectedInvoice.client_name}</span>
+                        <span className="font-medium">
+                          {selectedInvoice.client_name}
+                        </span>
                       </div>
                       <div className="flex justify-between">
                         <span className="text-gray-600">رقم الملف:</span>
@@ -799,7 +942,11 @@ export default function Invoices() {
                       </div>
                       <div className="flex justify-between">
                         <span className="text-gray-600">الحالة:</span>
-                        <Badge className={getStatusColor(selectedInvoice.payment_status)}>
+                        <Badge
+                          className={getStatusColor(
+                            selectedInvoice.payment_status,
+                          )}
+                        >
                           {getStatusLabel(selectedInvoice.payment_status)}
                         </Badge>
                       </div>
@@ -809,7 +956,9 @@ export default function Invoices() {
 
                 {/* بنود الفاتورة */}
                 <div>
-                  <h4 className="font-medium text-gray-900 mb-4">بنود الفاتورة</h4>
+                  <h4 className="font-medium text-gray-900 mb-4">
+                    بنود الفاتورة
+                  </h4>
                   <Table>
                     <TableHeader>
                       <TableRow>
@@ -824,8 +973,12 @@ export default function Invoices() {
                         <TableRow key={item.id}>
                           <TableCell>{item.description}</TableCell>
                           <TableCell>{item.quantity}</TableCell>
-                          <TableCell>{formatCurrency(item.unit_price)}</TableCell>
-                          <TableCell>{formatCurrency(item.total_price)}</TableCell>
+                          <TableCell>
+                            {formatCurrency(item.unit_price)}
+                          </TableCell>
+                          <TableCell>
+                            {formatCurrency(item.total_price)}
+                          </TableCell>
                         </TableRow>
                       ))}
                     </TableBody>
@@ -837,7 +990,13 @@ export default function Invoices() {
                   <div className="space-y-2">
                     <div className="flex justify-between">
                       <span>المجموع الفرعي:</span>
-                      <span>{formatCurrency(selectedInvoice.total_amount - selectedInvoice.tax_amount + selectedInvoice.discount_amount)}</span>
+                      <span>
+                        {formatCurrency(
+                          selectedInvoice.total_amount -
+                            selectedInvoice.tax_amount +
+                            selectedInvoice.discount_amount,
+                        )}
+                      </span>
                     </div>
                     <div className="flex justify-between">
                       <span>الضريبة:</span>
@@ -846,12 +1005,16 @@ export default function Invoices() {
                     {selectedInvoice.discount_amount > 0 && (
                       <div className="flex justify-between text-green-600">
                         <span>الخصم:</span>
-                        <span>-{formatCurrency(selectedInvoice.discount_amount)}</span>
+                        <span>
+                          -{formatCurrency(selectedInvoice.discount_amount)}
+                        </span>
                       </div>
                     )}
                     <div className="flex justify-between font-bold text-lg border-t pt-2">
                       <span>الإجمالي:</span>
-                      <span>{formatCurrency(selectedInvoice.total_amount)}</span>
+                      <span>
+                        {formatCurrency(selectedInvoice.total_amount)}
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -870,13 +1033,14 @@ export default function Invoices() {
                     <Download className="h-4 w-4 ml-2" />
                     تحميل PDF
                   </Button>
-                  
+
                   <Button variant="outline">
                     <Edit className="h-4 w-4 ml-2" />
                     تحرير
                   </Button>
-                  
-                  {(selectedInvoice.payment_status === 'pending' || selectedInvoice.payment_status === 'overdue') && (
+
+                  {(selectedInvoice.payment_status === "pending" ||
+                    selectedInvoice.payment_status === "overdue") && (
                     <Button className="btn-navy">
                       <Send className="h-4 w-4 ml-2" />
                       إرسال تذكير دفع

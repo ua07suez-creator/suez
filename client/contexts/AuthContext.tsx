@@ -1,5 +1,18 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { User, Client, LoginRequest, LoginResponse, RegisterRequest, RegisterResponse } from '@shared/customs-types';
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  ReactNode,
+} from "react";
+import {
+  User,
+  Client,
+  LoginRequest,
+  LoginResponse,
+  RegisterRequest,
+  RegisterResponse,
+} from "@shared/customs-types";
 
 interface AuthContextType {
   user: User | null;
@@ -27,7 +40,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   // التحقق من الرمز المميز المحفوظ عند تحميل التطبيق
   useEffect(() => {
-    const token = localStorage.getItem('auth_token');
+    const token = localStorage.getItem("auth_token");
     if (token) {
       refreshUser();
     } else {
@@ -38,10 +51,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   // تسجيل الدخول
   const login = async (credentials: LoginRequest): Promise<LoginResponse> => {
     try {
-      const response = await fetch('/api/auth/login', {
-        method: 'POST',
+      const response = await fetch("/api/auth/login", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(credentials),
       });
@@ -49,7 +62,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       const data: LoginResponse = await response.json();
 
       if (data.success && data.user && data.token) {
-        localStorage.setItem('auth_token', data.token);
+        localStorage.setItem("auth_token", data.token);
         setUser(data.user);
         if (data.client) {
           setClient(data.client);
@@ -58,10 +71,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
       return data;
     } catch (error) {
-      console.error('خطأ في تسجيل الدخول:', error);
+      console.error("خطأ في تسجيل الدخول:", error);
       return {
         success: false,
-        message: 'حدث خطأ في الاتصال'
+        message: "حدث خطأ في الاتصال",
       };
     }
   };
@@ -69,10 +82,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   // التسجيل
   const register = async (data: RegisterRequest): Promise<RegisterResponse> => {
     try {
-      const response = await fetch('/api/auth/register', {
-        method: 'POST',
+      const response = await fetch("/api/auth/register", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(data),
       });
@@ -80,17 +93,17 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       const result: RegisterResponse = await response.json();
       return result;
     } catch (error) {
-      console.error('خطأ في التسجيل:', error);
+      console.error("خطأ في التسجيل:", error);
       return {
         success: false,
-        message: 'حدث خطأ في الاتصال'
+        message: "حدث خطأ في الاتصال",
       };
     }
   };
 
   // تسجيل الخروج
   const logout = () => {
-    localStorage.removeItem('auth_token');
+    localStorage.removeItem("auth_token");
     setUser(null);
     setClient(null);
   };
@@ -98,15 +111,15 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   // تحديث بيانات المستخدم
   const refreshUser = async () => {
     try {
-      const token = localStorage.getItem('auth_token');
+      const token = localStorage.getItem("auth_token");
       if (!token) {
         setIsLoading(false);
         return;
       }
 
-      const response = await fetch('/api/auth/me', {
+      const response = await fetch("/api/auth/me", {
         headers: {
-          'Authorization': `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         },
       });
 
@@ -119,15 +132,15 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           }
         } else {
           // الرمز المميز غير صالح
-          localStorage.removeItem('auth_token');
+          localStorage.removeItem("auth_token");
         }
       } else {
         // خطأ في الخادم أو الرمز المميز غير صالح
-        localStorage.removeItem('auth_token');
+        localStorage.removeItem("auth_token");
       }
     } catch (error) {
-      console.error('خطأ في تحديث بيانات المستخدم:', error);
-      localStorage.removeItem('auth_token');
+      console.error("خطأ في تحديث بيانات المستخدم:", error);
+      localStorage.removeItem("auth_token");
     } finally {
       setIsLoading(false);
     }
@@ -144,18 +157,14 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     refreshUser,
   };
 
-  return (
-    <AuthContext.Provider value={value}>
-      {children}
-    </AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 
 // Hook لاستخدام AuthContext
 export const useAuth = (): AuthContextType => {
   const context = useContext(AuthContext);
   if (!context) {
-    throw new Error('useAuth يجب أن يستخدم داخل AuthProvider');
+    throw new Error("useAuth يجب أن يستخدم داخل AuthProvider");
   }
   return context;
 };

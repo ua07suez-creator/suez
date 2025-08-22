@@ -1,12 +1,18 @@
-import React, { useState } from 'react';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { useAuth } from '../contexts/AuthContext';
-import { Button } from '../components/ui/button';
-import { Input } from '../components/ui/input';
-import { Label } from '../components/ui/label';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card';
-import { Alert, AlertDescription } from '../components/ui/alert';
-import { Loader2, Eye, EyeOff } from 'lucide-react';
+import React, { useState } from "react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
+import { useAuth } from "../contexts/AuthContext";
+import { Button } from "../components/ui/button";
+import { Input } from "../components/ui/input";
+import { Label } from "../components/ui/label";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "../components/ui/card";
+import { Alert, AlertDescription } from "../components/ui/alert";
+import { Loader2, Eye, EyeOff } from "lucide-react";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -14,31 +20,31 @@ export default function Login() {
   const { login } = useAuth();
 
   const [formData, setFormData] = useState({
-    email: '',
-    password: ''
+    email: "",
+    password: "",
   });
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
   // الصفحة المراد التوجه إليها بعد تسجيل الدخول
-  const from = (location.state as any)?.from?.pathname || '/dashboard';
+  const from = (location.state as any)?.from?.pathname || "/dashboard";
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    setError('');
+    setError("");
 
     try {
       const result = await login(formData);
-      
+
       if (result.success) {
         navigate(from, { replace: true });
       } else {
-        setError(result.message || 'حدث خطأ في تسجيل الدخول');
+        setError(result.message || "حدث خطأ في تسجيل الدخول");
       }
     } catch (err) {
-      setError('حدث خطأ في الاتصال');
+      setError("حدث خطأ في الاتصال");
     } finally {
       setIsLoading(false);
     }
@@ -47,7 +53,7 @@ export default function Login() {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
@@ -59,7 +65,7 @@ export default function Login() {
             تسجيل الدخول
           </h2>
           <p className="mt-2 text-sm text-gray-600">
-            أو{' '}
+            أو{" "}
             <Link
               to="/register"
               className="font-medium text-navy-light hover:text-navy-hover"
@@ -72,9 +78,7 @@ export default function Login() {
         <Card>
           <CardHeader>
             <CardTitle>أهلاً بك مرة أخرى</CardTitle>
-            <CardDescription>
-              قم بتسجيل الدخول للوصول إلى حسابك
-            </CardDescription>
+            <CardDescription>قم بتسجيل الدخول للوصول إلى حسابك</CardDescription>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-6">
@@ -104,7 +108,7 @@ export default function Login() {
                   <Input
                     id="password"
                     name="password"
-                    type={showPassword ? 'text' : 'password'}
+                    type={showPassword ? "text" : "password"}
                     required
                     value={formData.password}
                     onChange={handleChange}
@@ -133,7 +137,10 @@ export default function Login() {
                     type="checkbox"
                     className="h-4 w-4 text-navy-light focus:ring-navy-light border-gray-300 rounded"
                   />
-                  <label htmlFor="remember-me" className="mr-2 block text-sm text-gray-900">
+                  <label
+                    htmlFor="remember-me"
+                    className="mr-2 block text-sm text-gray-900"
+                  >
                     تذكرني
                   </label>
                 </div>
@@ -159,7 +166,7 @@ export default function Login() {
                     جاري تسجيل الدخول...
                   </>
                 ) : (
-                  'تسجيل الدخول'
+                  "تسجيل الدخول"
                 )}
               </Button>
             </form>
@@ -168,7 +175,7 @@ export default function Login() {
 
         <div className="text-center">
           <p className="text-sm text-gray-600">
-            ليس لديك حساب؟{' '}
+            ليس لديك حساب؟{" "}
             <Link
               to="/register"
               className="font-medium text-navy-light hover:text-navy-hover"

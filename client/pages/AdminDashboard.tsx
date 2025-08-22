@@ -1,14 +1,25 @@
-import React, { useState, useEffect } from 'react';
-import { useAuth } from '../contexts/AuthContext';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card';
-import { Button } from '../components/ui/button';
-import { Badge } from '../components/ui/badge';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '../components/ui/tabs';
-import { 
-  Users, 
-  FileText, 
-  DollarSign, 
-  Clock, 
+import React, { useState, useEffect } from "react";
+import { useAuth } from "../contexts/AuthContext";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "../components/ui/card";
+import { Button } from "../components/ui/button";
+import { Badge } from "../components/ui/badge";
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "../components/ui/tabs";
+import {
+  Users,
+  FileText,
+  DollarSign,
+  Clock,
   AlertTriangle,
   TrendingUp,
   CheckCircle,
@@ -16,11 +27,17 @@ import {
   Plus,
   Settings,
   BarChart3,
-  Search
-} from 'lucide-react';
-import { Alert, AlertDescription } from '../components/ui/alert';
-import { Input } from '../components/ui/input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../components/ui/select';
+  Search,
+} from "lucide-react";
+import { Alert, AlertDescription } from "../components/ui/alert";
+import { Input } from "../components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../components/ui/select";
 
 interface AdminStats {
   total_clients: number;
@@ -37,7 +54,11 @@ interface AdminStats {
 
 interface RecentActivity {
   id: number;
-  type: 'case_created' | 'payment_received' | 'document_uploaded' | 'case_completed';
+  type:
+    | "case_created"
+    | "payment_received"
+    | "document_uploaded"
+    | "case_completed";
   description: string;
   user_name: string;
   case_number?: string;
@@ -66,7 +87,7 @@ export default function AdminDashboard() {
     total_revenue: 0,
     pending_payments: 0,
     this_month_revenue: 0,
-    this_month_cases: 0
+    this_month_cases: 0,
   });
 
   const [recentActivity, setRecentActivity] = useState<RecentActivity[]>([]);
@@ -87,62 +108,62 @@ export default function AdminDashboard() {
         total_revenue: 2450000,
         pending_payments: 180000,
         this_month_revenue: 340000,
-        this_month_cases: 28
+        this_month_cases: 28,
       });
 
       setRecentActivity([
         {
           id: 1,
-          type: 'case_created',
-          description: 'تم إنشاء ملف جديد',
-          user_name: 'أحمد محمد',
-          case_number: 'CU-2024-045',
-          timestamp: '2024-01-16T10:30:00'
+          type: "case_created",
+          description: "تم إنشاء ملف جديد",
+          user_name: "أحمد محمد",
+          case_number: "CU-2024-045",
+          timestamp: "2024-01-16T10:30:00",
         },
         {
           id: 2,
-          type: 'payment_received',
-          description: 'تم استلام دفعة',
-          user_name: 'شركة النصر للتجارة',
-          timestamp: '2024-01-16T09:15:00'
+          type: "payment_received",
+          description: "تم استلام دفعة",
+          user_name: "شركة النصر للتجارة",
+          timestamp: "2024-01-16T09:15:00",
         },
         {
           id: 3,
-          type: 'document_uploaded',
-          description: 'تم رفع مستند',
-          user_name: 'فاطمة علي',
-          case_number: 'CU-2024-043',
-          timestamp: '2024-01-16T08:45:00'
+          type: "document_uploaded",
+          description: "تم رفع مستند",
+          user_name: "فاطمة علي",
+          case_number: "CU-2024-043",
+          timestamp: "2024-01-16T08:45:00",
         },
         {
           id: 4,
-          type: 'case_completed',
-          description: 'تم إكمال ملف',
-          user_name: 'محمد أحمد',
-          case_number: 'CU-2024-040',
-          timestamp: '2024-01-15T16:20:00'
-        }
+          type: "case_completed",
+          description: "تم إكمال ملف",
+          user_name: "محمد أحمد",
+          case_number: "CU-2024-040",
+          timestamp: "2024-01-15T16:20:00",
+        },
       ]);
 
       setEmployees([
         {
           id: 2,
-          full_name: 'موظف العمليات',
-          email: 'employee1@company.com',
-          user_type: 'employee',
+          full_name: "موظف العمليات",
+          email: "employee1@company.com",
+          user_type: "employee",
           active_cases: 12,
           completed_cases: 87,
-          is_active: true
+          is_active: true,
         },
         {
           id: 3,
-          full_name: 'المحاسب',
-          email: 'accountant@company.com',
-          user_type: 'accountant',
+          full_name: "المحاسب",
+          email: "accountant@company.com",
+          user_type: "accountant",
           active_cases: 8,
           completed_cases: 145,
-          is_active: true
-        }
+          is_active: true,
+        },
       ]);
 
       setIsLoading(false);
@@ -151,13 +172,13 @@ export default function AdminDashboard() {
 
   const getActivityIcon = (type: string) => {
     switch (type) {
-      case 'case_created':
+      case "case_created":
         return <Plus className="h-4 w-4 text-blue-600" />;
-      case 'payment_received':
+      case "payment_received":
         return <DollarSign className="h-4 w-4 text-green-600" />;
-      case 'document_uploaded':
+      case "document_uploaded":
         return <FileText className="h-4 w-4 text-orange-600" />;
-      case 'case_completed':
+      case "case_completed":
         return <CheckCircle className="h-4 w-4 text-green-600" />;
       default:
         return <Clock className="h-4 w-4 text-gray-600" />;
@@ -165,19 +186,19 @@ export default function AdminDashboard() {
   };
 
   const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat('ar-EG', {
-      style: 'currency',
-      currency: 'EGP'
+    return new Intl.NumberFormat("ar-EG", {
+      style: "currency",
+      currency: "EGP",
     }).format(amount);
   };
 
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleString('ar-EG', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit'
+    return new Date(dateString).toLocaleString("ar-EG", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
     });
   };
 
@@ -202,7 +223,8 @@ export default function AdminDashboard() {
               مرحباً، {user?.full_name}
             </h1>
             <p className="text-gray-600 mt-1">
-              ل��حة التحكم الإدارية - {user?.user_type === 'admin' ? 'مدير عام' : 'موظف'}
+              ل��حة التحكم الإدارية -{" "}
+              {user?.user_type === "admin" ? "مدير عام" : "موظف"}
             </p>
           </div>
           <div className="flex space-x-2 space-x-reverse">
@@ -237,8 +259,12 @@ export default function AdminDashboard() {
                 <Users className="h-6 w-6 text-blue-600" />
               </div>
               <div className="mr-4">
-                <p className="text-sm font-medium text-gray-600">إجمالي العملاء</p>
-                <p className="text-2xl font-bold text-gray-900">{stats.total_clients}</p>
+                <p className="text-sm font-medium text-gray-600">
+                  إجمالي العملاء
+                </p>
+                <p className="text-2xl font-bold text-gray-900">
+                  {stats.total_clients}
+                </p>
               </div>
             </div>
           </CardContent>
@@ -251,9 +277,15 @@ export default function AdminDashboard() {
                 <FileText className="h-6 w-6 text-green-600" />
               </div>
               <div className="mr-4">
-                <p className="text-sm font-medium text-gray-600">إجمالي الملفات</p>
-                <p className="text-2xl font-bold text-gray-900">{stats.total_cases}</p>
-                <p className="text-xs text-green-600">+{stats.this_month_cases} هذا الشهر</p>
+                <p className="text-sm font-medium text-gray-600">
+                  إجمالي الملفات
+                </p>
+                <p className="text-2xl font-bold text-gray-900">
+                  {stats.total_cases}
+                </p>
+                <p className="text-xs text-green-600">
+                  +{stats.this_month_cases} هذا الشهر
+                </p>
               </div>
             </div>
           </CardContent>
@@ -267,8 +299,12 @@ export default function AdminDashboard() {
               </div>
               <div className="mr-4">
                 <p className="text-sm font-medium text-gray-600">ملفات نشطة</p>
-                <p className="text-2xl font-bold text-gray-900">{stats.active_cases}</p>
-                <p className="text-xs text-red-600">{stats.overdue_cases} متأخر</p>
+                <p className="text-2xl font-bold text-gray-900">
+                  {stats.active_cases}
+                </p>
+                <p className="text-xs text-red-600">
+                  {stats.overdue_cases} متأخر
+                </p>
               </div>
             </div>
           </CardContent>
@@ -281,7 +317,9 @@ export default function AdminDashboard() {
                 <DollarSign className="h-6 w-6 text-green-600" />
               </div>
               <div className="mr-4">
-                <p className="text-sm font-medium text-gray-600">الإيرادات الشهرية</p>
+                <p className="text-sm font-medium text-gray-600">
+                  الإيرادات الشهرية
+                </p>
                 <p className="text-2xl font-bold text-gray-900">
                   {formatCurrency(stats.this_month_revenue)}
                 </p>
@@ -314,7 +352,10 @@ export default function AdminDashboard() {
               <CardContent>
                 <div className="space-y-4">
                   {recentActivity.map((activity) => (
-                    <div key={activity.id} className="flex items-center space-x-3 space-x-reverse">
+                    <div
+                      key={activity.id}
+                      className="flex items-center space-x-3 space-x-reverse"
+                    >
                       <div className="p-2 bg-gray-100 rounded-lg">
                         {getActivityIcon(activity.type)}
                       </div>
@@ -355,15 +396,17 @@ export default function AdminDashboard() {
                     </div>
                     <span className="font-medium">{stats.completed_cases}</span>
                   </div>
-                  
+
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-2 space-x-reverse">
                       <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
-                      <span className="text-sm text-gray-600">قيد المعالجة</span>
+                      <span className="text-sm text-gray-600">
+                        قيد المعالجة
+                      </span>
                     </div>
                     <span className="font-medium">{stats.active_cases}</span>
                   </div>
-                  
+
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-2 space-x-reverse">
                       <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
@@ -371,13 +414,15 @@ export default function AdminDashboard() {
                     </div>
                     <span className="font-medium">{stats.pending_cases}</span>
                   </div>
-                  
+
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-2 space-x-reverse">
                       <div className="w-3 h-3 bg-red-500 rounded-full"></div>
                       <span className="text-sm text-gray-600">متأخرة</span>
                     </div>
-                    <span className="font-medium text-red-600">{stats.overdue_cases}</span>
+                    <span className="font-medium text-red-600">
+                      {stats.overdue_cases}
+                    </span>
                   </div>
                 </div>
               </CardContent>
@@ -463,27 +508,40 @@ export default function AdminDashboard() {
             <CardContent>
               <div className="space-y-4">
                 {employees.map((employee) => (
-                  <div key={employee.id} className="flex items-center justify-between p-4 border rounded-lg">
+                  <div
+                    key={employee.id}
+                    className="flex items-center justify-between p-4 border rounded-lg"
+                  >
                     <div className="flex items-center space-x-3 space-x-reverse">
                       <div className="p-2 bg-gray-100 rounded-lg">
                         <User className="h-4 w-4 text-gray-600" />
                       </div>
                       <div>
-                        <p className="font-medium text-gray-900">{employee.full_name}</p>
-                        <p className="text-sm text-gray-600">{employee.email}</p>
+                        <p className="font-medium text-gray-900">
+                          {employee.full_name}
+                        </p>
+                        <p className="text-sm text-gray-600">
+                          {employee.email}
+                        </p>
                       </div>
                     </div>
                     <div className="flex items-center space-x-6 space-x-reverse">
                       <div className="text-center">
-                        <p className="text-sm font-medium text-gray-900">{employee.active_cases}</p>
+                        <p className="text-sm font-medium text-gray-900">
+                          {employee.active_cases}
+                        </p>
                         <p className="text-xs text-gray-600">ملفات نشطة</p>
                       </div>
                       <div className="text-center">
-                        <p className="text-sm font-medium text-gray-900">{employee.completed_cases}</p>
+                        <p className="text-sm font-medium text-gray-900">
+                          {employee.completed_cases}
+                        </p>
                         <p className="text-xs text-gray-600">مكتملة</p>
                       </div>
-                      <Badge variant={employee.is_active ? "default" : "secondary"}>
-                        {employee.is_active ? 'نشط' : 'غير نشط'}
+                      <Badge
+                        variant={employee.is_active ? "default" : "secondary"}
+                      >
+                        {employee.is_active ? "نشط" : "غير نشط"}
                       </Badge>
                     </div>
                   </div>

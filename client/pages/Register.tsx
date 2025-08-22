@@ -1,53 +1,65 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '../contexts/AuthContext';
-import { Button } from '../components/ui/button';
-import { Input } from '../components/ui/input';
-import { Label } from '../components/ui/label';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card';
-import { Alert, AlertDescription } from '../components/ui/alert';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../components/ui/select';
-import { Textarea } from '../components/ui/textarea';
-import { Loader2, Eye, EyeOff, CheckCircle } from 'lucide-react';
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../contexts/AuthContext";
+import { Button } from "../components/ui/button";
+import { Input } from "../components/ui/input";
+import { Label } from "../components/ui/label";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "../components/ui/card";
+import { Alert, AlertDescription } from "../components/ui/alert";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../components/ui/select";
+import { Textarea } from "../components/ui/textarea";
+import { Loader2, Eye, EyeOff, CheckCircle } from "lucide-react";
 
 export default function Register() {
   const navigate = useNavigate();
   const { register } = useAuth();
 
   const [formData, setFormData] = useState({
-    email: '',
-    password: '',
-    confirmPassword: '',
-    full_name: '',
-    phone: '',
-    company_name: '',
-    company_type: 'company' as 'individual' | 'company',
-    tax_number: '',
-    commercial_register: '',
-    address: '',
-    city: 'القاهرة'
+    email: "",
+    password: "",
+    confirmPassword: "",
+    full_name: "",
+    phone: "",
+    company_name: "",
+    company_type: "company" as "individual" | "company",
+    tax_number: "",
+    commercial_register: "",
+    address: "",
+    city: "القاهرة",
   });
 
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    setError('');
+    setError("");
 
     // التحقق من كلمة المرور
     if (formData.password !== formData.confirmPassword) {
-      setError('كلمة المرور غير متطابقة');
+      setError("كلمة المرور غير متطابقة");
       setIsLoading(false);
       return;
     }
 
     if (formData.password.length < 6) {
-      setError('كلمة المرور يجب أن تكون 6 أحرف على الأقل');
+      setError("كلمة المرور يجب أن تكون 6 أحرف على الأقل");
       setIsLoading(false);
       return;
     }
@@ -55,33 +67,35 @@ export default function Register() {
     try {
       const { confirmPassword, ...dataToSend } = formData;
       const result = await register(dataToSend);
-      
+
       if (result.success) {
         setSuccess(true);
         setTimeout(() => {
-          navigate('/login');
+          navigate("/login");
         }, 2000);
       } else {
-        setError(result.message || 'حدث خطأ في إنشاء الحساب');
+        setError(result.message || "حدث خطأ في إنشاء الحساب");
       }
     } catch (err) {
-      setError('حدث خطأ في الاتصال');
+      setError("حدث خطأ في الاتصال");
     } finally {
       setIsLoading(false);
     }
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
   const handleSelectChange = (value: string) => {
     setFormData({
       ...formData,
-      company_type: value as 'individual' | 'company'
+      company_type: value as "individual" | "company",
     });
   };
 
@@ -97,10 +111,7 @@ export default function Register() {
             <p className="text-gray-600 mb-4">
               سيتم توجيهك إلى صفحة تسجيل الدخول خلال ثانية...
             </p>
-            <Button 
-              onClick={() => navigate('/login')}
-              className="btn-navy"
-            >
+            <Button onClick={() => navigate("/login")} className="btn-navy">
               الذهاب إلى تسجيل الدخول
             </Button>
           </CardContent>
@@ -117,7 +128,7 @@ export default function Register() {
             إنشاء حساب جديد
           </h2>
           <p className="mt-2 text-sm text-gray-600">
-            أو{' '}
+            أو{" "}
             <Link
               to="/login"
               className="font-medium text-navy-light hover:text-navy-hover"
@@ -188,7 +199,10 @@ export default function Register() {
 
                 <div className="space-y-2">
                   <Label htmlFor="company_type">نوع النشاط *</Label>
-                  <Select value={formData.company_type} onValueChange={handleSelectChange}>
+                  <Select
+                    value={formData.company_type}
+                    onValueChange={handleSelectChange}
+                  >
                     <SelectTrigger>
                       <SelectValue placeholder="اختر نوع النشاط" />
                     </SelectTrigger>
@@ -208,7 +222,7 @@ export default function Register() {
                     <Input
                       id="password"
                       name="password"
-                      type={showPassword ? 'text' : 'password'}
+                      type={showPassword ? "text" : "password"}
                       required
                       value={formData.password}
                       onChange={handleChange}
@@ -235,7 +249,7 @@ export default function Register() {
                     <Input
                       id="confirmPassword"
                       name="confirmPassword"
-                      type={showConfirmPassword ? 'text' : 'password'}
+                      type={showConfirmPassword ? "text" : "password"}
                       required
                       value={formData.confirmPassword}
                       onChange={handleChange}
@@ -245,7 +259,9 @@ export default function Register() {
                     <button
                       type="button"
                       className="absolute left-3 top-1/2 transform -translate-y-1/2"
-                      onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                      onClick={() =>
+                        setShowConfirmPassword(!showConfirmPassword)
+                      }
                     >
                       {showConfirmPassword ? (
                         <EyeOff className="h-4 w-4 text-gray-400" />
@@ -259,8 +275,10 @@ export default function Register() {
 
               {/* معلومات الشركة */}
               <div className="space-y-4 border-t pt-4">
-                <h3 className="text-lg font-medium text-gray-900">معلومات الشركة</h3>
-                
+                <h3 className="text-lg font-medium text-gray-900">
+                  معلومات الشركة
+                </h3>
+
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="company_name">اسم الشركة</Label>
@@ -338,7 +356,7 @@ export default function Register() {
                     جاري إنشاء الحساب...
                   </>
                 ) : (
-                  'إنشاء الحساب'
+                  "إنشاء الحساب"
                 )}
               </Button>
             </form>
@@ -347,14 +365,14 @@ export default function Register() {
 
         <div className="text-center">
           <p className="text-sm text-gray-600">
-            بالتسجيل، أنت توافق على{' '}
+            بالتسجيل، أنت توافق على{" "}
             <Link
               to="/terms"
               className="font-medium text-navy-light hover:text-navy-hover"
             >
               الشروط والأحكام
-            </Link>{' '}
-            و{' '}
+            </Link>{" "}
+            و{" "}
             <Link
               to="/privacy"
               className="font-medium text-navy-light hover:text-navy-hover"

@@ -1,15 +1,34 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { useAuth } from '../contexts/AuthContext';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card';
-import { Button } from '../components/ui/button';
-import { Input } from '../components/ui/input';
-import { Textarea } from '../components/ui/textarea';
-import { Badge } from '../components/ui/badge';
-import { Avatar, AvatarFallback } from '../components/ui/avatar';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../components/ui/select';
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '../components/ui/dialog';
-import { Label } from '../components/ui/label';
-import { 
+import React, { useState, useEffect, useRef } from "react";
+import { useAuth } from "../contexts/AuthContext";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "../components/ui/card";
+import { Button } from "../components/ui/button";
+import { Input } from "../components/ui/input";
+import { Textarea } from "../components/ui/textarea";
+import { Badge } from "../components/ui/badge";
+import { Avatar, AvatarFallback } from "../components/ui/avatar";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../components/ui/select";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "../components/ui/dialog";
+import { Label } from "../components/ui/label";
+import {
   Send,
   Search,
   Plus,
@@ -19,9 +38,9 @@ import {
   User,
   MessageSquare,
   AlertCircle,
-  Filter
-} from 'lucide-react';
-import { Message } from '@shared/customs-types';
+  Filter,
+} from "lucide-react";
+import { Message } from "@shared/customs-types";
 
 interface MessageThread {
   id: number;
@@ -31,7 +50,7 @@ interface MessageThread {
   last_message: string;
   last_message_time: string;
   unread_count: number;
-  message_type: 'general' | 'urgent' | 'document_request' | 'payment_reminder';
+  message_type: "general" | "urgent" | "document_request" | "payment_reminder";
   participants: Array<{
     id: number;
     name: string;
@@ -49,30 +68,32 @@ interface NewMessageForm {
   receiver_id: string;
   subject: string;
   message: string;
-  message_type: 'general' | 'urgent' | 'document_request' | 'payment_reminder';
+  message_type: "general" | "urgent" | "document_request" | "payment_reminder";
   attachment: File | null;
 }
 
 export default function Messages() {
   const { user } = useAuth();
   const [threads, setThreads] = useState<MessageThread[]>([]);
-  const [selectedThread, setSelectedThread] = useState<MessageThread | null>(null);
+  const [selectedThread, setSelectedThread] = useState<MessageThread | null>(
+    null,
+  );
   const [messages, setMessages] = useState<MessageDetail[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [typeFilter, setTypeFilter] = useState('all');
+  const [searchTerm, setSearchTerm] = useState("");
+  const [typeFilter, setTypeFilter] = useState("all");
   const [isNewMessageOpen, setIsNewMessageOpen] = useState(false);
-  const [newMessage, setNewMessage] = useState('');
+  const [newMessage, setNewMessage] = useState("");
   const [isNewThreadOpen, setIsNewThreadOpen] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const [newMessageForm, setNewMessageForm] = useState<NewMessageForm>({
-    case_id: '',
-    receiver_id: '',
-    subject: '',
-    message: '',
-    message_type: 'general',
-    attachment: null
+    case_id: "",
+    receiver_id: "",
+    subject: "",
+    message: "",
+    message_type: "general",
+    attachment: null,
   });
 
   useEffect(() => {
@@ -82,45 +103,45 @@ export default function Messages() {
         {
           id: 1,
           case_id: 1,
-          case_number: 'CU-2024-001',
-          client_name: 'شركة النصر للتجارة',
-          last_message: 'تم رفع المستندات المطلوبة، يرجى المراجعة',
-          last_message_time: '2024-01-16T14:30:00',
+          case_number: "CU-2024-001",
+          client_name: "شركة النصر للتجارة",
+          last_message: "تم رفع المستندات المطلوبة، يرجى المراجعة",
+          last_message_time: "2024-01-16T14:30:00",
           unread_count: 2,
-          message_type: 'document_request',
+          message_type: "document_request",
           participants: [
-            { id: 1, name: 'أحمد محمد', user_type: 'client' },
-            { id: 2, name: 'موظف العمليات', user_type: 'employee' }
-          ]
+            { id: 1, name: "أحمد محمد", user_type: "client" },
+            { id: 2, name: "موظف العمليات", user_type: "employee" },
+          ],
         },
         {
           id: 2,
           case_id: 2,
-          case_number: 'CU-2024-002',
-          client_name: 'أحمد محمد للاستيراد',
-          last_message: 'متى سيتم الانتهاء من عملية التخليص؟',
-          last_message_time: '2024-01-16T11:15:00',
+          case_number: "CU-2024-002",
+          client_name: "أحمد محمد للاستيراد",
+          last_message: "متى سيتم الانتهاء من عملية التخليص؟",
+          last_message_time: "2024-01-16T11:15:00",
           unread_count: 0,
-          message_type: 'general',
+          message_type: "general",
           participants: [
-            { id: 3, name: 'فاطمة علي', user_type: 'client' },
-            { id: 2, name: 'موظف العمليات', user_type: 'employee' }
-          ]
+            { id: 3, name: "فاطمة علي", user_type: "client" },
+            { id: 2, name: "موظف العمليات", user_type: "employee" },
+          ],
         },
         {
           id: 3,
           case_id: 3,
-          case_number: 'CU-2024-003',
-          client_name: 'شركة المستقبل',
-          last_message: 'تم الإفراج عن البضاعة، يمكنكم الاستلام',
-          last_message_time: '2024-01-15T16:45:00',
+          case_number: "CU-2024-003",
+          client_name: "شركة المستقبل",
+          last_message: "تم الإفراج عن البضاعة، يمكنكم الاستلام",
+          last_message_time: "2024-01-15T16:45:00",
           unread_count: 0,
-          message_type: 'general',
+          message_type: "general",
           participants: [
-            { id: 4, name: 'محمد أحمد', user_type: 'client' },
-            { id: 2, name: 'موظف العمليات', user_type: 'employee' }
-          ]
-        }
+            { id: 4, name: "محمد أحمد", user_type: "client" },
+            { id: 2, name: "موظف العمليات", user_type: "employee" },
+          ],
+        },
       ];
 
       setThreads(mockThreads);
@@ -137,46 +158,47 @@ export default function Messages() {
           case_id: selectedThread.case_id,
           sender_id: 1,
           receiver_id: 2,
-          message_type: 'general',
-          subject: 'استفسار عن الملف',
-          message: 'السلام عليكم، أريد الاستفسار عن حالة الملف الحالية',
+          message_type: "general",
+          subject: "استفسار عن الملف",
+          message: "السلام عليكم، أريد الاستفسار عن حالة الملف الحالية",
           attachment_path: undefined,
           is_read: true,
-          sent_at: '2024-01-15T10:00:00',
-          read_at: '2024-01-15T10:05:00',
-          sender_name: 'أحمد محمد',
-          sender_type: 'client'
+          sent_at: "2024-01-15T10:00:00",
+          read_at: "2024-01-15T10:05:00",
+          sender_name: "أحمد محمد",
+          sender_type: "client",
         },
         {
           id: 2,
           case_id: selectedThread.case_id,
           sender_id: 2,
           receiver_id: 1,
-          message_type: 'general',
-          subject: 'رد: استفسار عن الملف',
-          message: 'وعليكم السلام، الملف حالياً في مرحلة مراجعة المستندات. سنقوم بإبلاغكم بأي تحديث.',
+          message_type: "general",
+          subject: "رد: استفسار عن الملف",
+          message:
+            "وعليكم السلام، الملف حالياً في مرحلة مراجعة المستندات. سنقوم بإبلاغكم بأي تحديث.",
           attachment_path: undefined,
           is_read: true,
-          sent_at: '2024-01-15T10:30:00',
-          read_at: '2024-01-15T10:35:00',
-          sender_name: 'موظف العمليات',
-          sender_type: 'employee'
+          sent_at: "2024-01-15T10:30:00",
+          read_at: "2024-01-15T10:35:00",
+          sender_name: "موظف العمليات",
+          sender_type: "employee",
         },
         {
           id: 3,
           case_id: selectedThread.case_id,
           sender_id: 1,
           receiver_id: 2,
-          message_type: 'document_request',
-          subject: 'رفع المستندات',
-          message: 'تم رفع المستندات المطلوبة، يرجى المراجعة',
-          attachment_path: '/uploads/documents.zip',
+          message_type: "document_request",
+          subject: "رفع المستندات",
+          message: "تم رفع المستندات المطلوبة، يرجى المراجعة",
+          attachment_path: "/uploads/documents.zip",
           is_read: false,
-          sent_at: '2024-01-16T14:30:00',
+          sent_at: "2024-01-16T14:30:00",
           read_at: undefined,
-          sender_name: 'أحمد محمد',
-          sender_type: 'client'
-        }
+          sender_name: "أحمد محمد",
+          sender_type: "client",
+        },
       ];
 
       setMessages(mockMessages);
@@ -188,16 +210,16 @@ export default function Messages() {
   }, [messages]);
 
   const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
   const getMessageTypeIcon = (type: string) => {
     switch (type) {
-      case 'urgent':
+      case "urgent":
         return <AlertCircle className="h-4 w-4 text-red-500" />;
-      case 'document_request':
+      case "document_request":
         return <Paperclip className="h-4 w-4 text-blue-500" />;
-      case 'payment_reminder':
+      case "payment_reminder":
         return <Clock className="h-4 w-4 text-orange-500" />;
       default:
         return <MessageSquare className="h-4 w-4 text-gray-500" />;
@@ -206,38 +228,47 @@ export default function Messages() {
 
   const getMessageTypeLabel = (type: string) => {
     switch (type) {
-      case 'urgent': return 'عاجل';
-      case 'document_request': return 'طلب مستند';
-      case 'payment_reminder': return 'تذكير دفع';
-      default: return 'عام';
+      case "urgent":
+        return "عاجل";
+      case "document_request":
+        return "طلب مستند";
+      case "payment_reminder":
+        return "تذكير دفع";
+      default:
+        return "عام";
     }
   };
 
   const getMessageTypeColor = (type: string) => {
     switch (type) {
-      case 'urgent': return 'bg-red-100 text-red-800';
-      case 'document_request': return 'bg-blue-100 text-blue-800';
-      case 'payment_reminder': return 'bg-orange-100 text-orange-800';
-      default: return 'bg-gray-100 text-gray-800';
+      case "urgent":
+        return "bg-red-100 text-red-800";
+      case "document_request":
+        return "bg-blue-100 text-blue-800";
+      case "payment_reminder":
+        return "bg-orange-100 text-orange-800";
+      default:
+        return "bg-gray-100 text-gray-800";
     }
   };
 
   const formatTime = (dateString: string) => {
     const date = new Date(dateString);
     const now = new Date();
-    const diffInHours = Math.abs(now.getTime() - date.getTime()) / (1000 * 60 * 60);
+    const diffInHours =
+      Math.abs(now.getTime() - date.getTime()) / (1000 * 60 * 60);
 
     if (diffInHours < 24) {
-      return date.toLocaleTimeString('ar-EG', { 
-        hour: '2-digit', 
-        minute: '2-digit' 
+      return date.toLocaleTimeString("ar-EG", {
+        hour: "2-digit",
+        minute: "2-digit",
       });
     } else {
-      return date.toLocaleDateString('ar-EG', { 
-        month: 'short', 
-        day: 'numeric',
-        hour: '2-digit', 
-        minute: '2-digit' 
+      return date.toLocaleDateString("ar-EG", {
+        month: "short",
+        day: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
       });
     }
   };
@@ -249,43 +280,52 @@ export default function Messages() {
       id: Date.now(),
       case_id: selectedThread.case_id,
       sender_id: user?.id || 0,
-      receiver_id: selectedThread.participants.find(p => p.id !== user?.id)?.id || 0,
-      message_type: 'general',
-      subject: '',
+      receiver_id:
+        selectedThread.participants.find((p) => p.id !== user?.id)?.id || 0,
+      message_type: "general",
+      subject: "",
       message: newMessage,
       attachment_path: undefined,
       is_read: false,
       sent_at: new Date().toISOString(),
       read_at: undefined,
-      sender_name: user?.full_name || '',
-      sender_type: user?.user_type || ''
+      sender_name: user?.full_name || "",
+      sender_type: user?.user_type || "",
     };
 
     setMessages([...messages, message]);
-    setNewMessage('');
+    setNewMessage("");
 
     // تحديث آخر رسالة في thread
-    setThreads(threads.map(thread => 
-      thread.id === selectedThread.id 
-        ? { ...thread, last_message: newMessage, last_message_time: message.sent_at }
-        : thread
-    ));
+    setThreads(
+      threads.map((thread) =>
+        thread.id === selectedThread.id
+          ? {
+              ...thread,
+              last_message: newMessage,
+              last_message_time: message.sent_at,
+            }
+          : thread,
+      ),
+    );
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
+    if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
       handleSendMessage();
     }
   };
 
-  const filteredThreads = threads.filter(thread => {
-    const matchesSearch = thread.case_number.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         thread.client_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         thread.last_message.toLowerCase().includes(searchTerm.toLowerCase());
-    
-    const matchesType = typeFilter === 'all' || thread.message_type === typeFilter;
-    
+  const filteredThreads = threads.filter((thread) => {
+    const matchesSearch =
+      thread.case_number.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      thread.client_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      thread.last_message.toLowerCase().includes(searchTerm.toLowerCase());
+
+    const matchesType =
+      typeFilter === "all" || thread.message_type === typeFilter;
+
     return matchesSearch && matchesType;
   });
 
@@ -307,7 +347,7 @@ export default function Messages() {
         <div className="p-4 border-b border-gray-200">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-lg font-semibold text-gray-900">المراسلات</h2>
-            
+
             <Dialog open={isNewThreadOpen} onOpenChange={setIsNewThreadOpen}>
               <DialogTrigger asChild>
                 <Button size="sm" className="btn-navy">
@@ -322,7 +362,7 @@ export default function Messages() {
                     إنشاء محادثة جديدة مع عميل
                   </DialogDescription>
                 </DialogHeader>
-                
+
                 <div className="space-y-4">
                   <div>
                     <Label htmlFor="case_select">الملف</Label>
@@ -331,13 +371,19 @@ export default function Messages() {
                         <SelectValue placeholder="اختر الملف" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="1">CU-2024-001 - شركة النصر</SelectItem>
-                        <SelectItem value="2">CU-2024-002 - أحمد محمد</SelectItem>
-                        <SelectItem value="3">CU-2024-003 - شركة المستقبل</SelectItem>
+                        <SelectItem value="1">
+                          CU-2024-001 - شركة النصر
+                        </SelectItem>
+                        <SelectItem value="2">
+                          CU-2024-002 - أحمد محمد
+                        </SelectItem>
+                        <SelectItem value="3">
+                          CU-2024-003 - شركة المستقبل
+                        </SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
-                  
+
                   <div>
                     <Label htmlFor="message_type">نوع الرسالة</Label>
                     <Select>
@@ -347,29 +393,34 @@ export default function Messages() {
                       <SelectContent>
                         <SelectItem value="general">عام</SelectItem>
                         <SelectItem value="urgent">عاجل</SelectItem>
-                        <SelectItem value="document_request">طلب مستند</SelectItem>
-                        <SelectItem value="payment_reminder">تذكير دفع</SelectItem>
+                        <SelectItem value="document_request">
+                          طلب مستند
+                        </SelectItem>
+                        <SelectItem value="payment_reminder">
+                          تذكير دفع
+                        </SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
-                  
+
                   <div>
                     <Label htmlFor="subject">الموضوع</Label>
                     <Input placeholder="موضوع الرسالة" />
                   </div>
-                  
+
                   <div>
                     <Label htmlFor="message">الرسالة</Label>
                     <Textarea placeholder="اكتب رسالتك هنا..." rows={4} />
                   </div>
-                  
+
                   <div className="flex justify-end space-x-2 space-x-reverse">
-                    <Button variant="outline" onClick={() => setIsNewThreadOpen(false)}>
+                    <Button
+                      variant="outline"
+                      onClick={() => setIsNewThreadOpen(false)}
+                    >
                       إلغاء
                     </Button>
-                    <Button className="btn-navy">
-                      إرسال
-                    </Button>
+                    <Button className="btn-navy">إرسال</Button>
                   </div>
                 </div>
               </DialogContent>
@@ -386,7 +437,7 @@ export default function Messages() {
                 className="pr-10"
               />
             </div>
-            
+
             <Select value={typeFilter} onValueChange={setTypeFilter}>
               <SelectTrigger>
                 <SelectValue placeholder="تصفية حسب النوع" />
@@ -407,7 +458,9 @@ export default function Messages() {
             <div
               key={thread.id}
               className={`p-4 border-b border-gray-100 cursor-pointer hover:bg-gray-50 transition-colors ${
-                selectedThread?.id === thread.id ? 'bg-blue-50 border-blue-200' : ''
+                selectedThread?.id === thread.id
+                  ? "bg-blue-50 border-blue-200"
+                  : ""
               }`}
               onClick={() => setSelectedThread(thread)}
             >
@@ -417,7 +470,7 @@ export default function Messages() {
                     {thread.client_name.charAt(0)}
                   </AvatarFallback>
                 </Avatar>
-                
+
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-2 space-x-reverse">
@@ -426,27 +479,27 @@ export default function Messages() {
                       </p>
                       {getMessageTypeIcon(thread.message_type)}
                     </div>
-                    
+
                     {thread.unread_count > 0 && (
                       <Badge className="bg-red-500 text-white">
                         {thread.unread_count}
                       </Badge>
                     )}
                   </div>
-                  
+
                   <p className="text-sm text-gray-600 truncate">
                     {thread.client_name}
                   </p>
-                  
+
                   <p className="text-xs text-gray-500 truncate mt-1">
                     {thread.last_message}
                   </p>
-                  
+
                   <div className="flex items-center justify-between mt-2">
                     <Badge className={getMessageTypeColor(thread.message_type)}>
                       {getMessageTypeLabel(thread.message_type)}
                     </Badge>
-                    
+
                     <span className="text-xs text-gray-400">
                       {formatTime(thread.last_message_time)}
                     </span>
@@ -455,7 +508,7 @@ export default function Messages() {
               </div>
             </div>
           ))}
-          
+
           {filteredThreads.length === 0 && (
             <div className="p-8 text-center text-gray-500">
               لا توجد محادثات مطابقة
@@ -477,18 +530,24 @@ export default function Messages() {
                       {selectedThread.client_name.charAt(0)}
                     </AvatarFallback>
                   </Avatar>
-                  
+
                   <div>
                     <h3 className="font-medium text-gray-900">
-                      {selectedThread.case_number} - {selectedThread.client_name}
+                      {selectedThread.case_number} -{" "}
+                      {selectedThread.client_name}
                     </h3>
                     <p className="text-sm text-gray-600">
-                      المشاركون: {selectedThread.participants.map(p => p.name).join('، ')}
+                      المشاركون:{" "}
+                      {selectedThread.participants
+                        .map((p) => p.name)
+                        .join("، ")}
                     </p>
                   </div>
                 </div>
-                
-                <Badge className={getMessageTypeColor(selectedThread.message_type)}>
+
+                <Badge
+                  className={getMessageTypeColor(selectedThread.message_type)}
+                >
                   {getMessageTypeLabel(selectedThread.message_type)}
                 </Badge>
               </div>
@@ -500,25 +559,27 @@ export default function Messages() {
                 <div
                   key={message.id}
                   className={`flex ${
-                    message.sender_id === user?.id ? 'justify-end' : 'justify-start'
+                    message.sender_id === user?.id
+                      ? "justify-end"
+                      : "justify-start"
                   }`}
                 >
                   <div
                     className={`max-w-xs lg:max-w-md px-4 py-3 rounded-lg ${
                       message.sender_id === user?.id
-                        ? 'bg-navy-light text-white'
-                        : 'bg-white text-gray-900 border border-gray-200'
+                        ? "bg-navy-light text-white"
+                        : "bg-white text-gray-900 border border-gray-200"
                     }`}
                   >
                     <div className="flex items-center space-x-2 space-x-reverse mb-1">
                       <span className="text-xs font-medium">
                         {message.sender_name}
                       </span>
-                      {message.message_type !== 'general' && (
-                        <Badge 
+                      {message.message_type !== "general" && (
+                        <Badge
                           className={`text-xs ${
-                            message.sender_id === user?.id 
-                              ? 'bg-white/20 text-white' 
+                            message.sender_id === user?.id
+                              ? "bg-white/20 text-white"
                               : getMessageTypeColor(message.message_type)
                           }`}
                         >
@@ -526,17 +587,17 @@ export default function Messages() {
                         </Badge>
                       )}
                     </div>
-                    
+
                     {message.subject && (
                       <p className="text-sm font-medium mb-2">
                         {message.subject}
                       </p>
                     )}
-                    
+
                     <p className="text-sm whitespace-pre-wrap">
                       {message.message}
                     </p>
-                    
+
                     {message.attachment_path && (
                       <div className="mt-2 p-2 bg-black/10 rounded">
                         <div className="flex items-center space-x-2 space-x-reverse">
@@ -545,12 +606,12 @@ export default function Messages() {
                         </div>
                       </div>
                     )}
-                    
+
                     <div className="flex items-center justify-between mt-2">
                       <span className="text-xs opacity-75">
                         {formatTime(message.sent_at)}
                       </span>
-                      
+
                       {message.sender_id === user?.id && (
                         <div className="flex items-center space-x-1 space-x-reverse">
                           {message.is_read ? (
@@ -578,13 +639,13 @@ export default function Messages() {
                   className="flex-1 min-h-[40px] max-h-32 resize-none"
                   rows={1}
                 />
-                
+
                 <div className="flex space-x-2 space-x-reverse">
                   <Button variant="outline" size="sm">
                     <Paperclip className="h-4 w-4" />
                   </Button>
-                  
-                  <Button 
+
+                  <Button
                     onClick={handleSendMessage}
                     disabled={!newMessage.trim()}
                     className="btn-navy"

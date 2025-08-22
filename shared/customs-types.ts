@@ -5,7 +5,7 @@ export interface User {
   email: string;
   full_name: string;
   phone?: string;
-  user_type: 'client' | 'admin' | 'employee' | 'accountant' | 'support';
+  user_type: "client" | "admin" | "employee" | "accountant" | "support";
   is_active: boolean;
   created_at: string;
   updated_at: string;
@@ -15,7 +15,7 @@ export interface Client {
   id: number;
   user_id: number;
   company_name?: string;
-  company_type: 'individual' | 'company';
+  company_type: "individual" | "company";
   tax_number?: string;
   commercial_register?: string;
   address?: string;
@@ -34,7 +34,7 @@ export interface Case {
   case_number: string;
   client_id: number;
   assigned_employee_id?: number;
-  operation_type: 'import' | 'export';
+  operation_type: "import" | "export";
   port: string;
   bill_of_lading?: string;
   shipment_number?: string;
@@ -45,7 +45,7 @@ export interface Case {
   current_status: string;
   target_completion_date?: string;
   actual_completion_date?: string;
-  priority: 'low' | 'normal' | 'high' | 'urgent';
+  priority: "low" | "normal" | "high" | "urgent";
   notes?: string;
   created_at: string;
   updated_at: string;
@@ -72,7 +72,7 @@ export interface Document {
   uploaded_by?: number;
   upload_date: string;
   is_required: boolean;
-  status: 'pending' | 'approved' | 'rejected';
+  status: "pending" | "approved" | "rejected";
   notes?: string;
 }
 
@@ -85,7 +85,7 @@ export interface Invoice {
   currency: string;
   tax_amount: number;
   discount_amount: number;
-  payment_status: 'pending' | 'partial' | 'paid' | 'overdue' | 'cancelled';
+  payment_status: "pending" | "partial" | "paid" | "overdue" | "cancelled";
   issue_date: string;
   due_date: string;
   payment_date?: string;
@@ -111,7 +111,7 @@ export interface Message {
   case_id: number;
   sender_id: number;
   receiver_id?: number;
-  message_type: 'general' | 'urgent' | 'document_request' | 'payment_reminder';
+  message_type: "general" | "urgent" | "document_request" | "payment_reminder";
   subject?: string;
   message: string;
   attachment_path?: string;
@@ -138,8 +138,8 @@ export interface SupportTicket {
   user_id: number;
   subject: string;
   description: string;
-  priority: 'low' | 'normal' | 'high' | 'urgent';
-  status: 'open' | 'in_progress' | 'resolved' | 'closed';
+  priority: "low" | "normal" | "high" | "urgent";
+  status: "open" | "in_progress" | "resolved" | "closed";
   assigned_to?: number;
   created_at: string;
   updated_at: string;
@@ -166,7 +166,7 @@ export interface RegisterRequest {
   full_name: string;
   phone?: string;
   company_name?: string;
-  company_type: 'individual' | 'company';
+  company_type: "individual" | "company";
   tax_number?: string;
   commercial_register?: string;
   address?: string;
