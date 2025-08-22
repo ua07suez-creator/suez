@@ -25,6 +25,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
 import AdminDashboard from "./pages/AdminDashboard";
+import SuperAdminDashboard from "./pages/SuperAdminDashboard";
 import CaseManagement from "./pages/CaseManagement";
 import Messages from "./pages/Messages";
 import Invoices from "./pages/Invoices";
@@ -53,6 +54,32 @@ function ProtectedRoute({ children }: { children: React.ReactNode }) {
 
   if (!isAuthenticated) {
     return <Navigate to="/login" replace />;
+  }
+
+  return <>{children}</>;
+}
+
+// مكون حماية صفحات المدير
+function AdminRoute({ children }: { children: React.ReactNode }) {
+  const { user, isAuthenticated, isLoading } = useAuth();
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-navy-light mx-auto"></div>
+          <p className="mt-4 text-gray-600">جاري التحميل...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!isAuthenticated) {
+    return <Navigate to="/login" replace />;
+  }
+
+  if (user?.user_type !== "admin") {
+    return <Navigate to="/dashboard" replace />;
   }
 
   return <>{children}</>;
@@ -252,14 +279,29 @@ function AppRoutes() {
       <Route
         path="/admin"
         element={
-          <ProtectedRoute>
+          <AdminRoute>
             <div className="min-h-screen bg-gray-50">
               <Navigation />
               <div className="p-6">
                 <AdminDashboard />
               </div>
             </div>
-          </ProtectedRoute>
+          </AdminRoute>
+        }
+      />
+
+      {/* لوحة التحكم الشاملة للمدير */}
+      <Route
+        path="/super-admin"
+        element={
+          <AdminRoute>
+            <div className="min-h-screen bg-gray-50">
+              <Navigation />
+              <div className="p-6">
+                <SuperAdminDashboard />
+              </div>
+            </div>
+          </AdminRoute>
         }
       />
 
