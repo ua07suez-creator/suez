@@ -28,6 +28,7 @@ import AdminDashboard from "./pages/AdminDashboard";
 import CaseManagement from "./pages/CaseManagement";
 import Messages from "./pages/Messages";
 import Invoices from "./pages/Invoices";
+import Navigation from "./components/Navigation";
 import Privacy from "./pages/Privacy";
 import Terms from "./pages/Terms";
 import Legal from "./pages/Legal";
@@ -115,34 +116,44 @@ function AppRoutes() {
         </PublicRoute>
       } />
 
-      {/* الصفحات المحمية بدون Layout العادي */}
+      {/* الصفحات المحمية مع شريط التنقل */}
       <Route path="/dashboard" element={
         <ProtectedRoute>
-          <div className="min-h-screen bg-gray-50 p-6">
-            <Dashboard />
+          <div className="min-h-screen bg-gray-50">
+            <Navigation />
+            <div className="p-6">
+              <Dashboard />
+            </div>
           </div>
         </ProtectedRoute>
       } />
 
       <Route path="/admin" element={
         <ProtectedRoute>
-          <div className="min-h-screen bg-gray-50 p-6">
-            <AdminDashboard />
+          <div className="min-h-screen bg-gray-50">
+            <Navigation />
+            <div className="p-6">
+              <AdminDashboard />
+            </div>
           </div>
         </ProtectedRoute>
       } />
 
       <Route path="/cases" element={
         <ProtectedRoute>
-          <div className="min-h-screen bg-gray-50 p-6">
-            <CaseManagement />
+          <div className="min-h-screen bg-gray-50">
+            <Navigation />
+            <div className="p-6">
+              <CaseManagement />
+            </div>
           </div>
         </ProtectedRoute>
       } />
 
       <Route path="/messages" element={
         <ProtectedRoute>
-          <div className="min-h-screen bg-gray-50 p-6">
+          <div className="min-h-screen bg-gray-50">
+            <Navigation />
             <Messages />
           </div>
         </ProtectedRoute>
@@ -150,8 +161,11 @@ function AppRoutes() {
 
       <Route path="/invoices" element={
         <ProtectedRoute>
-          <div className="min-h-screen bg-gray-50 p-6">
-            <Invoices />
+          <div className="min-h-screen bg-gray-50">
+            <Navigation />
+            <div className="p-6">
+              <Invoices />
+            </div>
           </div>
         </ProtectedRoute>
       } />
