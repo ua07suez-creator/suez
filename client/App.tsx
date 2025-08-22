@@ -25,6 +25,9 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
 import AdminDashboard from "./pages/AdminDashboard";
+import CaseManagement from "./pages/CaseManagement";
+import Messages from "./pages/Messages";
+import Invoices from "./pages/Invoices";
 import Privacy from "./pages/Privacy";
 import Terms from "./pages/Terms";
 import Legal from "./pages/Legal";
@@ -125,6 +128,30 @@ function AppRoutes() {
         <ProtectedRoute>
           <div className="min-h-screen bg-gray-50 p-6">
             <AdminDashboard />
+          </div>
+        </ProtectedRoute>
+      } />
+
+      <Route path="/cases" element={
+        <ProtectedRoute>
+          <div className="min-h-screen bg-gray-50 p-6">
+            <CaseManagement />
+          </div>
+        </ProtectedRoute>
+      } />
+
+      <Route path="/messages" element={
+        <ProtectedRoute>
+          <div className="min-h-screen bg-gray-50 p-6">
+            <Messages />
+          </div>
+        </ProtectedRoute>
+      } />
+
+      <Route path="/invoices" element={
+        <ProtectedRoute>
+          <div className="min-h-screen bg-gray-50 p-6">
+            <Invoices />
           </div>
         </ProtectedRoute>
       } />
