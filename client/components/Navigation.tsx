@@ -68,6 +68,12 @@ export default function Navigation() {
       icon: Shield,
       show: user?.user_type === "admin",
     },
+    {
+      path: "/super-admin",
+      label: "التحكم الشامل",
+      icon: Settings,
+      show: user?.user_type === "admin",
+    },
   ];
 
   return (
