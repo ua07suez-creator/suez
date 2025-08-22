@@ -19,7 +19,7 @@ async function createAdminUser() {
     // التحقق من وجود المستخدم
     const existingUser = await pool.query(
       "SELECT id FROM users WHERE email = $1",
-      [email]
+      [email],
     );
 
     if (existingUser.rows.length > 0) {
@@ -32,14 +32,13 @@ async function createAdminUser() {
       `INSERT INTO users (email, password_hash, full_name, user_type, is_active)
        VALUES ($1, $2, $3, 'admin', true)
        RETURNING id, email, full_name, user_type`,
-      [email, hashedPassword, fullName]
+      [email, hashedPassword, fullName],
     );
 
     console.log("Admin user created successfully:", result.rows[0]);
     console.log("\nAdmin Login Credentials:");
     console.log("Email: admin@customs.com");
     console.log("Password: admin123");
-
   } catch (error) {
     console.error("Error creating admin user:", error);
   } finally {

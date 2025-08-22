@@ -10,10 +10,10 @@ const pool = new Pool({
 
 // Middleware للتحقق من صلاحيات المدير
 export const requireAdmin: RequestHandler = (req, res, next) => {
-  if (req.user?.userType !== 'admin') {
-    return res.status(403).json({ 
-      success: false, 
-      message: "غير مصرح لك بالوصول لهذه الوظيفة" 
+  if (req.user?.userType !== "admin") {
+    return res.status(403).json({
+      success: false,
+      message: "غير مصرح لك بالوصول لهذه الوظيفة",
     });
   }
   next();
@@ -60,7 +60,7 @@ export const getSystemStats: RequestHandler = async (req, res) => {
         server_storage: 67, // سيتم حسابها لاحقاً
         database_size: 2.4, // سيتم حسابها لاحقاً
         uptime: process.uptime(),
-      }
+      },
     };
 
     res.json({ success: true, stats });
@@ -103,7 +103,7 @@ export const getAllUsers: RequestHandler = async (req, res) => {
     const result = await pool.query(query, params);
 
     // إجمالي العدد
-    const countQuery = `SELECT COUNT(*) FROM users u WHERE 1=1 ${search ? 'AND (u.full_name ILIKE $1 OR u.email ILIKE $1)' : ''}`;
+    const countQuery = `SELECT COUNT(*) FROM users u WHERE 1=1 ${search ? "AND (u.full_name ILIKE $1 OR u.email ILIKE $1)" : ""}`;
     const countParams = search ? [`%${search}%`] : [];
     const countResult = await pool.query(countQuery, countParams);
 
@@ -114,8 +114,8 @@ export const getAllUsers: RequestHandler = async (req, res) => {
         total: parseInt(countResult.rows[0].count),
         page: Number(page),
         limit: Number(limit),
-        pages: Math.ceil(parseInt(countResult.rows[0].count) / Number(limit))
-      }
+        pages: Math.ceil(parseInt(countResult.rows[0].count) / Number(limit)),
+      },
     });
   } catch (error) {
     console.error("Error fetching users:", error);
@@ -131,21 +131,25 @@ export const toggleUserStatus: RequestHandler = async (req, res) => {
 
     const result = await pool.query(
       "UPDATE users SET is_active = $1, updated_at = NOW() WHERE id = $2 RETURNING id, email, full_name, is_active",
-      [is_active, userId]
+      [is_active, userId],
     );
 
     if (result.rows.length === 0) {
-      return res.status(404).json({ success: false, message: "المستخدم غير موجود" });
+      return res
+        .status(404)
+        .json({ success: false, message: "المستخدم غير موجود" });
     }
 
-    res.json({ 
-      success: true, 
-      message: `تم ${is_active ? 'تفعيل' : 'إلغاء تفعيل'} المستخدم بنجاح`,
-      user: result.rows[0]
+    res.json({
+      success: true,
+      message: `تم ${is_active ? "تفعيل" : "إلغاء تفعيل"} المستخدم بنجاح`,
+      user: result.rows[0],
     });
   } catch (error) {
     console.error("Error toggling user status:", error);
-    res.status(500).json({ success: false, message: "خطأ في تغيير حالة المستخدم" });
+    res
+      .status(500)
+      .json({ success: false, message: "خطأ في تغيير حالة المستخدم" });
   }
 };
 
@@ -155,36 +159,44 @@ export const updateUserType: RequestHandler = async (req, res) => {
     const { userId } = req.params;
     const { user_type } = req.body;
 
-    const validTypes = ['client', 'employee', 'accountant', 'support', 'admin'];
+    const validTypes = ["client", "employee", "accountant", "support", "admin"];
     if (!validTypes.includes(user_type)) {
-      return res.status(400).json({ success: false, message: "نوع المستخدم غير صالح" });
+      return res
+        .status(400)
+        .json({ success: false, message: "نوع المستخدم غير صالح" });
     }
 
     const result = await pool.query(
       "UPDATE users SET user_type = $1, updated_at = NOW() WHERE id = $2 RETURNING id, email, full_name, user_type",
-      [user_type, userId]
+      [user_type, userId],
     );
 
     if (result.rows.length === 0) {
-      return res.status(404).json({ success: false, message: "المستخدم غير موجود" });
+      return res
+        .status(404)
+        .json({ success: false, message: "المستخدم غير موجود" });
     }
 
-    res.json({ 
-      success: true, 
+    res.json({
+      success: true,
       message: "تم تحديث نوع المستخدم بنجاح",
-      user: result.rows[0]
+      user: result.rows[0],
     });
   } catch (error) {
     console.error("Error updating user type:", error);
-    res.status(500).json({ success: false, message: "خطأ في تحديث نوع المستخدم" });
+    res
+      .status(500)
+      .json({ success: false, message: "خطأ في تحديث نوع المستخدم" });
   }
 };
 
 // إدارة إعدادات الموقع
 export const getSiteSettings: RequestHandler = async (req, res) => {
   try {
-    const result = await pool.query("SELECT * FROM site_settings ORDER BY id LIMIT 1");
-    
+    const result = await pool.query(
+      "SELECT * FROM site_settings ORDER BY id LIMIT 1",
+    );
+
     if (result.rows.length === 0) {
       // إنشاء إعدادات افتراضية
       const defaultSettings = {
@@ -199,22 +211,25 @@ export const getSiteSettings: RequestHandler = async (req, res) => {
         sms_notifications: false,
       };
 
-      const insertResult = await pool.query(`
+      const insertResult = await pool.query(
+        `
         INSERT INTO site_settings (
           site_name, site_description, contact_email, contact_phone, 
           address, maintenance_mode, allow_registration, email_notifications, sms_notifications
         ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *
-      `, [
-        defaultSettings.site_name,
-        defaultSettings.site_description,
-        defaultSettings.contact_email,
-        defaultSettings.contact_phone,
-        defaultSettings.address,
-        defaultSettings.maintenance_mode,
-        defaultSettings.allow_registration,
-        defaultSettings.email_notifications,
-        defaultSettings.sms_notifications,
-      ]);
+      `,
+        [
+          defaultSettings.site_name,
+          defaultSettings.site_description,
+          defaultSettings.contact_email,
+          defaultSettings.contact_phone,
+          defaultSettings.address,
+          defaultSettings.maintenance_mode,
+          defaultSettings.allow_registration,
+          defaultSettings.email_notifications,
+          defaultSettings.sms_notifications,
+        ],
+      );
 
       return res.json({ success: true, settings: insertResult.rows[0] });
     }
@@ -222,7 +237,9 @@ export const getSiteSettings: RequestHandler = async (req, res) => {
     res.json({ success: true, settings: result.rows[0] });
   } catch (error) {
     console.error("Error fetching site settings:", error);
-    res.status(500).json({ success: false, message: "خطأ في جلب إعدادات الموقع" });
+    res
+      .status(500)
+      .json({ success: false, message: "خطأ في جلب إعدادات الموقع" });
   }
 };
 
@@ -243,7 +260,8 @@ export const updateSiteSettings: RequestHandler = async (req, res) => {
       whatsapp_number,
     } = req.body;
 
-    const result = await pool.query(`
+    const result = await pool.query(
+      `
       UPDATE site_settings SET 
         site_name = $1, site_description = $2, contact_email = $3, contact_phone = $4,
         address = $5, maintenance_mode = $6, allow_registration = $7, 
@@ -251,24 +269,38 @@ export const updateSiteSettings: RequestHandler = async (req, res) => {
         whatsapp_number = $11, updated_at = NOW()
       WHERE id = (SELECT id FROM site_settings ORDER BY id LIMIT 1)
       RETURNING *
-    `, [
-      site_name, site_description, contact_email, contact_phone,
-      address, maintenance_mode, allow_registration, email_notifications,
-      sms_notifications, facebook_url, whatsapp_number
-    ]);
+    `,
+      [
+        site_name,
+        site_description,
+        contact_email,
+        contact_phone,
+        address,
+        maintenance_mode,
+        allow_registration,
+        email_notifications,
+        sms_notifications,
+        facebook_url,
+        whatsapp_number,
+      ],
+    );
 
     if (result.rows.length === 0) {
-      return res.status(404).json({ success: false, message: "إعدادات الموقع غير موجودة" });
+      return res
+        .status(404)
+        .json({ success: false, message: "إعدادات الموقع غير موجودة" });
     }
 
-    res.json({ 
-      success: true, 
+    res.json({
+      success: true,
       message: "تم حفظ إعدادات الموقع بنجاح",
-      settings: result.rows[0]
+      settings: result.rows[0],
     });
   } catch (error) {
     console.error("Error updating site settings:", error);
-    res.status(500).json({ success: false, message: "خطأ في حفظ إعدادات الموقع" });
+    res
+      .status(500)
+      .json({ success: false, message: "خطأ في حفظ إعدادات الموقع" });
   }
 };
 
@@ -292,18 +324,27 @@ export const getPages: RequestHandler = async (req, res) => {
 // إنشاء صفحة جديدة
 export const createPage: RequestHandler = async (req, res) => {
   try {
-    const { title, slug, content, status = 'draft', meta_description } = req.body;
+    const {
+      title,
+      slug,
+      content,
+      status = "draft",
+      meta_description,
+    } = req.body;
     const created_by = req.user?.userId;
 
-    const result = await pool.query(`
+    const result = await pool.query(
+      `
       INSERT INTO content_pages (title, slug, content, status, meta_description, created_by)
       VALUES ($1, $2, $3, $4, $5, $6) RETURNING *
-    `, [title, slug, content, status, meta_description, created_by]);
+    `,
+      [title, slug, content, status, meta_description, created_by],
+    );
 
-    res.json({ 
-      success: true, 
+    res.json({
+      success: true,
       message: "تم إنشاء الصفحة بنجاح",
-      page: result.rows[0]
+      page: result.rows[0],
     });
   } catch (error) {
     console.error("Error creating page:", error);
@@ -317,21 +358,26 @@ export const updatePage: RequestHandler = async (req, res) => {
     const { pageId } = req.params;
     const { title, slug, content, status, meta_description } = req.body;
 
-    const result = await pool.query(`
+    const result = await pool.query(
+      `
       UPDATE content_pages SET 
         title = $1, slug = $2, content = $3, status = $4, 
         meta_description = $5, updated_at = NOW()
       WHERE id = $6 RETURNING *
-    `, [title, slug, content, status, meta_description, pageId]);
+    `,
+      [title, slug, content, status, meta_description, pageId],
+    );
 
     if (result.rows.length === 0) {
-      return res.status(404).json({ success: false, message: "الصفحة غير موجودة" });
+      return res
+        .status(404)
+        .json({ success: false, message: "الصفحة غير موجودة" });
     }
 
-    res.json({ 
-      success: true, 
+    res.json({
+      success: true,
       message: "تم تحديث الصفحة بنجاح",
-      page: result.rows[0]
+      page: result.rows[0],
     });
   } catch (error) {
     console.error("Error updating page:", error);
@@ -346,16 +392,18 @@ export const deletePage: RequestHandler = async (req, res) => {
 
     const result = await pool.query(
       "DELETE FROM content_pages WHERE id = $1 RETURNING id, title",
-      [pageId]
+      [pageId],
     );
 
     if (result.rows.length === 0) {
-      return res.status(404).json({ success: false, message: "الصفحة غير موجودة" });
+      return res
+        .status(404)
+        .json({ success: false, message: "الصفحة غير موجودة" });
     }
 
-    res.json({ 
-      success: true, 
-      message: "تم حذف الصفحة بنجاح"
+    res.json({
+      success: true,
+      message: "تم حذف الصفحة بنجاح",
     });
   } catch (error) {
     console.error("Error deleting page:", error);
@@ -367,14 +415,16 @@ export const deletePage: RequestHandler = async (req, res) => {
 export const createBackup: RequestHandler = async (req, res) => {
   try {
     // TODO: تنفيذ النسخ الاحتياطي الفعلي
-    res.json({ 
-      success: true, 
+    res.json({
+      success: true,
       message: "تم إنشاء النسخة الاحتياطية بنجاح",
-      backup_file: `backup_${Date.now()}.sql`
+      backup_file: `backup_${Date.now()}.sql`,
     });
   } catch (error) {
     console.error("Error creating backup:", error);
-    res.status(500).json({ success: false, message: "خطأ في إنشاء النسخة الاحتياطية" });
+    res
+      .status(500)
+      .json({ success: false, message: "خطأ في إنشاء النسخة الاحتياطية" });
   }
 };
 
@@ -404,18 +454,20 @@ export const getActivityLog: RequestHandler = async (req, res) => {
       },
     ];
 
-    res.json({ 
-      success: true, 
+    res.json({
+      success: true,
       activities,
       pagination: {
         total: activities.length,
         page: Number(page),
         limit: Number(limit),
-        pages: Math.ceil(activities.length / Number(limit))
-      }
+        pages: Math.ceil(activities.length / Number(limit)),
+      },
     });
   } catch (error) {
     console.error("Error fetching activity log:", error);
-    res.status(500).json({ success: false, message: "خطأ في جلب سجل النشاطات" });
+    res
+      .status(500)
+      .json({ success: false, message: "خطأ في جلب سجل النشاطات" });
   }
 };

@@ -113,7 +113,7 @@ export default function SuperAdminDashboard() {
   const { user } = useAuth();
   const [activeTab, setActiveTab] = useState("overview");
   const [isLoading, setIsLoading] = useState(false);
-  
+
   // Site Settings State
   const [siteSettings, setSiteSettings] = useState<SiteSettings>({
     site_name: "شركة التخليص الجمركي",
@@ -203,8 +203,8 @@ export default function SuperAdminDashboard() {
       slug: "new-page",
       content: "",
       status: "draft",
-      created_at: new Date().toISOString().split('T')[0],
-      updated_at: new Date().toISOString().split('T')[0],
+      created_at: new Date().toISOString().split("T")[0],
+      updated_at: new Date().toISOString().split("T")[0],
     };
     setPages([...pages, newPage]);
   };
@@ -215,10 +215,10 @@ export default function SuperAdminDashboard() {
   };
 
   const toggleUserStatus = (userId: number) => {
-    setSystemUsers(users =>
-      users.map(user =>
-        user.id === userId ? { ...user, is_active: !user.is_active } : user
-      )
+    setSystemUsers((users) =>
+      users.map((user) =>
+        user.id === userId ? { ...user, is_active: !user.is_active } : user,
+      ),
     );
   };
 
@@ -256,7 +256,9 @@ export default function SuperAdminDashboard() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-gray-600">إجمالي المستخدمين</p>
-                <p className="text-2xl font-bold text-navy-dark">{systemStats.total_users}</p>
+                <p className="text-2xl font-bold text-navy-dark">
+                  {systemStats.total_users}
+                </p>
                 <p className="text-xs text-green-600">+12 هذا الشهر</p>
               </div>
               <Users className="w-8 h-8 text-navy-light" />
@@ -269,7 +271,9 @@ export default function SuperAdminDashboard() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-gray-600">الزيارات الشهرية</p>
-                <p className="text-2xl font-bold text-navy-dark">{systemStats.monthly_visits.toLocaleString()}</p>
+                <p className="text-2xl font-bold text-navy-dark">
+                  {systemStats.monthly_visits.toLocaleString()}
+                </p>
                 <p className="text-xs text-green-600">+18% نمو</p>
               </div>
               <TrendingUp className="w-8 h-8 text-green-500" />
@@ -282,7 +286,9 @@ export default function SuperAdminDashboard() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-gray-600">استخدام التخزين</p>
-                <p className="text-2xl font-bold text-navy-dark">{systemStats.server_storage}%</p>
+                <p className="text-2xl font-bold text-navy-dark">
+                  {systemStats.server_storage}%
+                </p>
                 <p className="text-xs text-yellow-600">متوسط</p>
               </div>
               <Database className="w-8 h-8 text-yellow-500" />
@@ -295,7 +301,9 @@ export default function SuperAdminDashboard() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-gray-600">معدل الارتداد</p>
-                <p className="text-2xl font-bold text-navy-dark">{systemStats.bounce_rate}%</p>
+                <p className="text-2xl font-bold text-navy-dark">
+                  {systemStats.bounce_rate}%
+                </p>
                 <p className="text-xs text-green-600">منخفض</p>
               </div>
               <Activity className="w-8 h-8 text-blue-500" />
@@ -307,12 +315,24 @@ export default function SuperAdminDashboard() {
       {/* Main Tabs */}
       <Tabs value={activeTab} onValueChange={setActiveTab}>
         <TabsList className="grid w-full grid-cols-6">
-          <TabsTrigger value="overview" className="text-xs">نظرة عامة</TabsTrigger>
-          <TabsTrigger value="content" className="text-xs">إدارة المحتوى</TabsTrigger>
-          <TabsTrigger value="users" className="text-xs">المستخدمين</TabsTrigger>
-          <TabsTrigger value="settings" className="text-xs">إعدادات الموقع</TabsTrigger>
-          <TabsTrigger value="analytics" className="text-xs">التحليلات</TabsTrigger>
-          <TabsTrigger value="system" className="text-xs">النظام</TabsTrigger>
+          <TabsTrigger value="overview" className="text-xs">
+            نظرة عامة
+          </TabsTrigger>
+          <TabsTrigger value="content" className="text-xs">
+            إدارة المحتوى
+          </TabsTrigger>
+          <TabsTrigger value="users" className="text-xs">
+            المستخدمين
+          </TabsTrigger>
+          <TabsTrigger value="settings" className="text-xs">
+            إعدادات الموقع
+          </TabsTrigger>
+          <TabsTrigger value="analytics" className="text-xs">
+            التحليلات
+          </TabsTrigger>
+          <TabsTrigger value="system" className="text-xs">
+            النظام
+          </TabsTrigger>
         </TabsList>
 
         {/* Overview Tab */}
@@ -328,19 +348,27 @@ export default function SuperAdminDashboard() {
               <CardContent className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
                   <div className="text-center p-3 bg-gray-50 rounded-lg">
-                    <p className="text-2xl font-bold text-navy-dark">{systemStats.active_cases}</p>
+                    <p className="text-2xl font-bold text-navy-dark">
+                      {systemStats.active_cases}
+                    </p>
                     <p className="text-xs text-gray-600">ملفات نشطة</p>
                   </div>
                   <div className="text-center p-3 bg-gray-50 rounded-lg">
-                    <p className="text-2xl font-bold text-navy-dark">{systemStats.total_pages}</p>
+                    <p className="text-2xl font-bold text-navy-dark">
+                      {systemStats.total_pages}
+                    </p>
                     <p className="text-xs text-gray-600">صفحات الموقع</p>
                   </div>
                   <div className="text-center p-3 bg-gray-50 rounded-lg">
-                    <p className="text-2xl font-bold text-navy-dark">{systemStats.active_users}</p>
+                    <p className="text-2xl font-bold text-navy-dark">
+                      {systemStats.active_users}
+                    </p>
                     <p className="text-xs text-gray-600">مستخدمين نشطين</p>
                   </div>
                   <div className="text-center p-3 bg-gray-50 rounded-lg">
-                    <p className="text-2xl font-bold text-navy-dark">{systemStats.database_size} GB</p>
+                    <p className="text-2xl font-bold text-navy-dark">
+                      {systemStats.database_size} GB
+                    </p>
                     <p className="text-xs text-gray-600">حجم قاعدة البيانات</p>
                   </div>
                 </div>
@@ -397,15 +425,24 @@ export default function SuperAdminDashboard() {
             <CardContent>
               <div className="space-y-4">
                 {pages.map((page) => (
-                  <div key={page.id} className="flex items-center justify-between p-4 border rounded-lg">
+                  <div
+                    key={page.id}
+                    className="flex items-center justify-between p-4 border rounded-lg"
+                  >
                     <div className="flex-1">
-                      <h3 className="font-medium text-gray-900">{page.title}</h3>
+                      <h3 className="font-medium text-gray-900">
+                        {page.title}
+                      </h3>
                       <p className="text-sm text-gray-600">/{page.slug}</p>
-                      <p className="text-xs text-gray-500">آخر تحديث: {page.updated_at}</p>
+                      <p className="text-xs text-gray-500">
+                        آخر تحديث: {page.updated_at}
+                      </p>
                     </div>
                     <div className="flex items-center space-x-2 space-x-reverse">
-                      <Badge 
-                        variant={page.status === "published" ? "default" : "secondary"}
+                      <Badge
+                        variant={
+                          page.status === "published" ? "default" : "secondary"
+                        }
                       >
                         {page.status === "published" ? "منشور" : "مسودة"}
                       </Badge>
@@ -447,21 +484,35 @@ export default function SuperAdminDashboard() {
             <CardContent>
               <div className="space-y-4">
                 {systemUsers.map((user) => (
-                  <div key={user.id} className="flex items-center justify-between p-4 border rounded-lg">
+                  <div
+                    key={user.id}
+                    className="flex items-center justify-between p-4 border rounded-lg"
+                  >
                     <div className="flex-1">
-                      <h3 className="font-medium text-gray-900">{user.full_name}</h3>
+                      <h3 className="font-medium text-gray-900">
+                        {user.full_name}
+                      </h3>
                       <p className="text-sm text-gray-600">{user.email}</p>
-                      <p className="text-xs text-gray-500">آخر دخول: {new Date(user.last_login).toLocaleDateString('ar-EG')}</p>
+                      <p className="text-xs text-gray-500">
+                        آخر دخول:{" "}
+                        {new Date(user.last_login).toLocaleDateString("ar-EG")}
+                      </p>
                     </div>
                     <div className="flex items-center space-x-2 space-x-reverse">
-                      <Badge 
-                        variant={user.user_type === "admin" ? "default" : "secondary"}
+                      <Badge
+                        variant={
+                          user.user_type === "admin" ? "default" : "secondary"
+                        }
                       >
-                        {user.user_type === "admin" ? "مدير" : 
-                         user.user_type === "employee" ? "موظف" :
-                         user.user_type === "accountant" ? "محاسب" : "عميل"}
+                        {user.user_type === "admin"
+                          ? "مدير"
+                          : user.user_type === "employee"
+                            ? "موظف"
+                            : user.user_type === "accountant"
+                              ? "محاسب"
+                              : "عميل"}
                       </Badge>
-                      <Switch 
+                      <Switch
                         checked={user.is_active}
                         onCheckedChange={() => toggleUserStatus(user.id)}
                       />
@@ -492,7 +543,12 @@ export default function SuperAdminDashboard() {
                   <Input
                     id="site_name"
                     value={siteSettings.site_name}
-                    onChange={(e) => setSiteSettings({...siteSettings, site_name: e.target.value})}
+                    onChange={(e) =>
+                      setSiteSettings({
+                        ...siteSettings,
+                        site_name: e.target.value,
+                      })
+                    }
                     className="text-right"
                   />
                 </div>
@@ -501,7 +557,12 @@ export default function SuperAdminDashboard() {
                   <Textarea
                     id="site_description"
                     value={siteSettings.site_description}
-                    onChange={(e) => setSiteSettings({...siteSettings, site_description: e.target.value})}
+                    onChange={(e) =>
+                      setSiteSettings({
+                        ...siteSettings,
+                        site_description: e.target.value,
+                      })
+                    }
                     className="text-right"
                   />
                 </div>
@@ -511,7 +572,12 @@ export default function SuperAdminDashboard() {
                     id="contact_email"
                     type="email"
                     value={siteSettings.contact_email}
-                    onChange={(e) => setSiteSettings({...siteSettings, contact_email: e.target.value})}
+                    onChange={(e) =>
+                      setSiteSettings({
+                        ...siteSettings,
+                        contact_email: e.target.value,
+                      })
+                    }
                     className="text-right"
                   />
                 </div>
@@ -520,7 +586,12 @@ export default function SuperAdminDashboard() {
                   <Input
                     id="contact_phone"
                     value={siteSettings.contact_phone}
-                    onChange={(e) => setSiteSettings({...siteSettings, contact_phone: e.target.value})}
+                    onChange={(e) =>
+                      setSiteSettings({
+                        ...siteSettings,
+                        contact_phone: e.target.value,
+                      })
+                    }
                     className="text-right"
                   />
                 </div>
@@ -540,7 +611,12 @@ export default function SuperAdminDashboard() {
                   <Switch
                     id="maintenance_mode"
                     checked={siteSettings.maintenance_mode}
-                    onCheckedChange={(checked) => setSiteSettings({...siteSettings, maintenance_mode: checked})}
+                    onCheckedChange={(checked) =>
+                      setSiteSettings({
+                        ...siteSettings,
+                        maintenance_mode: checked,
+                      })
+                    }
                   />
                 </div>
                 <div className="flex items-center justify-between">
@@ -548,7 +624,12 @@ export default function SuperAdminDashboard() {
                   <Switch
                     id="allow_registration"
                     checked={siteSettings.allow_registration}
-                    onCheckedChange={(checked) => setSiteSettings({...siteSettings, allow_registration: checked})}
+                    onCheckedChange={(checked) =>
+                      setSiteSettings({
+                        ...siteSettings,
+                        allow_registration: checked,
+                      })
+                    }
                   />
                 </div>
                 <div className="flex items-center justify-between">
@@ -556,7 +637,12 @@ export default function SuperAdminDashboard() {
                   <Switch
                     id="email_notifications"
                     checked={siteSettings.email_notifications}
-                    onCheckedChange={(checked) => setSiteSettings({...siteSettings, email_notifications: checked})}
+                    onCheckedChange={(checked) =>
+                      setSiteSettings({
+                        ...siteSettings,
+                        email_notifications: checked,
+                      })
+                    }
                   />
                 </div>
                 <div className="flex items-center justify-between">
@@ -564,11 +650,16 @@ export default function SuperAdminDashboard() {
                   <Switch
                     id="sms_notifications"
                     checked={siteSettings.sms_notifications}
-                    onCheckedChange={(checked) => setSiteSettings({...siteSettings, sms_notifications: checked})}
+                    onCheckedChange={(checked) =>
+                      setSiteSettings({
+                        ...siteSettings,
+                        sms_notifications: checked,
+                      })
+                    }
                   />
                 </div>
-                <Button 
-                  onClick={handleSaveSettings} 
+                <Button
+                  onClick={handleSaveSettings}
                   disabled={isLoading}
                   className="w-full btn-navy"
                 >

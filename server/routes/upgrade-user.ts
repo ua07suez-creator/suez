@@ -15,32 +15,32 @@ export const upgradeToAdmin: RequestHandler = async (req, res) => {
     if (!email) {
       return res.status(400).json({
         success: false,
-        message: "البريد الإلكتروني مطلوب"
+        message: "البريد الإلكتروني مطلوب",
       });
     }
 
     const result = await pool.query(
       "UPDATE users SET user_type = 'admin', updated_at = NOW() WHERE email = $1 RETURNING id, email, full_name, user_type",
-      [email]
+      [email],
     );
 
     if (result.rows.length === 0) {
       return res.status(404).json({
         success: false,
-        message: "المستخدم غير موجود"
+        message: "المستخدم غير موجود",
       });
     }
 
     res.json({
       success: true,
       message: "تم ترقية المستخدم إلى مدير بنجاح",
-      user: result.rows[0]
+      user: result.rows[0],
     });
   } catch (error) {
     console.error("Error upgrading user:", error);
     res.status(500).json({
       success: false,
-      message: "خطأ في ترقية المستخدم"
+      message: "خطأ في ترقية المستخدم",
     });
   }
 };

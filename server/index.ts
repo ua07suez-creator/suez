@@ -57,25 +57,25 @@ export function createServer() {
 
   // Admin routes (protected)
   app.use("/api/admin", authenticateToken, requireAdmin);
-  
+
   // System statistics
   app.get("/api/admin/stats", getSystemStats);
-  
+
   // User management
   app.get("/api/admin/users", getAllUsers);
   app.patch("/api/admin/users/:userId/status", toggleUserStatus);
   app.patch("/api/admin/users/:userId/type", updateUserType);
-  
+
   // Site settings
   app.get("/api/admin/settings", getSiteSettings);
   app.put("/api/admin/settings", updateSiteSettings);
-  
+
   // Content management
   app.get("/api/admin/pages", getPages);
   app.post("/api/admin/pages", createPage);
   app.put("/api/admin/pages/:pageId", updatePage);
   app.delete("/api/admin/pages/:pageId", deletePage);
-  
+
   // System management
   app.post("/api/admin/backup", createBackup);
   app.get("/api/admin/activity-log", getActivityLog);

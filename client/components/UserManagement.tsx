@@ -173,25 +173,25 @@ export default function UserManagement() {
   };
 
   const getRoleInfo = (userType: string) => {
-    return roles.find(role => role.id === userType);
+    return roles.find((role) => role.id === userType);
   };
 
   const toggleUserStatus = (userId: number) => {
-    setUsers(users =>
-      users.map(user =>
-        user.id === userId ? { ...user, is_active: !user.is_active } : user
-      )
+    setUsers((users) =>
+      users.map((user) =>
+        user.id === userId ? { ...user, is_active: !user.is_active } : user,
+      ),
     );
   };
 
-  const filteredUsers = users.filter(user => {
-    const matchesSearch = 
+  const filteredUsers = users.filter((user) => {
+    const matchesSearch =
       user.full_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       user.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
       user.company_name?.toLowerCase().includes(searchTerm.toLowerCase());
-    
+
     const matchesFilter = filterType === "all" || user.user_type === filterType;
-    
+
     return matchesSearch && matchesFilter;
   });
 
@@ -203,7 +203,7 @@ export default function UserManagement() {
           <h2 className="text-2xl font-bold text-gray-900">إدارة المستخدمين</h2>
           <p className="text-gray-600">إدارة المستخدمين والأدوار والصلاحيات</p>
         </div>
-        
+
         <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
           <DialogTrigger asChild>
             <Button className="btn-navy">
@@ -238,7 +238,7 @@ export default function UserManagement() {
                     <SelectValue placeholder="اختر نوع المستخدم" />
                   </SelectTrigger>
                   <SelectContent>
-                    {roles.map(role => (
+                    {roles.map((role) => (
                       <SelectItem key={role.id} value={role.id}>
                         {role.name}
                       </SelectItem>
@@ -254,13 +254,13 @@ export default function UserManagement() {
 
       {/* Roles Overview */}
       <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
-        {roles.map(role => (
+        {roles.map((role) => (
           <Card key={role.id}>
             <CardContent className="p-4">
               <div className="flex items-center justify-between mb-2">
                 <Badge className={role.color}>{role.name}</Badge>
                 <span className="text-sm font-medium">
-                  {users.filter(u => u.user_type === role.id).length}
+                  {users.filter((u) => u.user_type === role.id).length}
                 </span>
               </div>
               <p className="text-xs text-gray-600">{role.description}</p>
@@ -282,14 +282,14 @@ export default function UserManagement() {
             />
           </div>
         </div>
-        
+
         <Select value={filterType} onValueChange={setFilterType}>
           <SelectTrigger className="w-48">
             <SelectValue placeholder="تصفية حسب النوع" />
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="all">جميع الأنواع</SelectItem>
-            {roles.map(role => (
+            {roles.map((role) => (
               <SelectItem key={role.id} value={role.id}>
                 {role.name}
               </SelectItem>
@@ -327,10 +327,16 @@ export default function UserManagement() {
                             {getUserTypeIcon(user.user_type)}
                           </div>
                           <div>
-                            <p className="font-medium text-gray-900">{user.full_name}</p>
-                            <p className="text-sm text-gray-600">{user.email}</p>
+                            <p className="font-medium text-gray-900">
+                              {user.full_name}
+                            </p>
+                            <p className="text-sm text-gray-600">
+                              {user.email}
+                            </p>
                             {user.company_name && (
-                              <p className="text-xs text-gray-500">{user.company_name}</p>
+                              <p className="text-xs text-gray-500">
+                                {user.company_name}
+                              </p>
                             )}
                           </div>
                         </div>
@@ -349,7 +355,9 @@ export default function UserManagement() {
                           {user.phone && (
                             <div className="flex items-center space-x-2 space-x-reverse text-sm">
                               <Phone className="w-3 h-3 text-gray-400" />
-                              <span className="text-gray-600">{user.phone}</span>
+                              <span className="text-gray-600">
+                                {user.phone}
+                              </span>
                             </div>
                           )}
                         </div>
@@ -369,10 +377,11 @@ export default function UserManagement() {
                         <div className="flex items-center space-x-2 space-x-reverse text-sm">
                           <Activity className="w-3 h-3 text-gray-400" />
                           <span className="text-gray-600">
-                            {user.last_login ? 
-                              new Date(user.last_login).toLocaleDateString('ar-EG') : 
-                              "لم يسجل دخول"
-                            }
+                            {user.last_login
+                              ? new Date(user.last_login).toLocaleDateString(
+                                  "ar-EG",
+                                )
+                              : "لم يسجل دخول"}
                           </span>
                         </div>
                       </TableCell>
@@ -402,7 +411,9 @@ export default function UserManagement() {
             <div className="text-center py-8 text-gray-500">
               <Users className="w-12 h-12 mx-auto mb-4 text-gray-300" />
               <p className="text-lg font-medium mb-2">لا توجد مستخدمين</p>
-              <p className="text-sm">قم بإضافة مستخدمين جدد أو غير معايير البحث</p>
+              <p className="text-sm">
+                قم بإضافة مستخدمين جدد أو غير معايير البحث
+              </p>
             </div>
           )}
         </CardContent>

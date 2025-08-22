@@ -123,10 +123,14 @@ export default function MediaManager() {
   };
 
   const getFileIcon = (fileType: string, mimeType: string) => {
-    if (fileType === "image") return <Image className="w-5 h-5 text-blue-500" />;
-    if (fileType === "video") return <Video className="w-5 h-5 text-purple-500" />;
-    if (fileType === "audio") return <Music className="w-5 h-5 text-green-500" />;
-    if (mimeType.includes("pdf")) return <File className="w-5 h-5 text-red-500" />;
+    if (fileType === "image")
+      return <Image className="w-5 h-5 text-blue-500" />;
+    if (fileType === "video")
+      return <Video className="w-5 h-5 text-purple-500" />;
+    if (fileType === "audio")
+      return <Music className="w-5 h-5 text-green-500" />;
+    if (mimeType.includes("pdf"))
+      return <File className="w-5 h-5 text-red-500" />;
     return <File className="w-5 h-5 text-gray-500" />;
   };
 
@@ -143,14 +147,14 @@ export default function MediaManager() {
   const handleDrop = useCallback((e: React.DragEvent) => {
     e.preventDefault();
     setIsDragOver(false);
-    
+
     const droppedFiles = Array.from(e.dataTransfer.files);
     handleFileUpload(droppedFiles);
   }, []);
 
   const handleFileUpload = async (fileList: File[]) => {
     setIsUploading(true);
-    
+
     // محاكاة رفع الملفات
     for (const file of fileList) {
       const newFile: MediaFile = {
@@ -158,18 +162,22 @@ export default function MediaManager() {
         original_name: file.name,
         file_name: `${Date.now()}_${file.name}`,
         file_path: `/uploads${currentFolder}/${Date.now()}_${file.name}`,
-        file_type: file.type.startsWith("image/") ? "image" : 
-                   file.type.startsWith("video/") ? "video" : 
-                   file.type.startsWith("audio/") ? "audio" : "document",
+        file_type: file.type.startsWith("image/")
+          ? "image"
+          : file.type.startsWith("video/")
+            ? "video"
+            : file.type.startsWith("audio/")
+              ? "audio"
+              : "document",
         mime_type: file.type,
         file_size: file.size,
         folder_path: currentFolder,
         created_at: new Date().toISOString(),
       };
-      
-      setFiles(prev => [...prev, newFile]);
+
+      setFiles((prev) => [...prev, newFile]);
     }
-    
+
     setIsUploading(false);
   };
 
@@ -180,24 +188,26 @@ export default function MediaManager() {
   };
 
   const toggleFileSelection = (fileId: number) => {
-    setSelectedFiles(prev => 
-      prev.includes(fileId) 
-        ? prev.filter(id => id !== fileId)
-        : [...prev, fileId]
+    setSelectedFiles((prev) =>
+      prev.includes(fileId)
+        ? prev.filter((id) => id !== fileId)
+        : [...prev, fileId],
     );
   };
 
   const deleteSelectedFiles = () => {
-    setFiles(prev => prev.filter(file => !selectedFiles.includes(file.id)));
+    setFiles((prev) => prev.filter((file) => !selectedFiles.includes(file.id)));
     setSelectedFiles([]);
   };
 
-  const filteredFiles = files.filter(file => {
-    const matchesSearch = file.original_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         file.title?.toLowerCase().includes(searchTerm.toLowerCase());
+  const filteredFiles = files.filter((file) => {
+    const matchesSearch =
+      file.original_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      file.title?.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesFilter = filterType === "all" || file.file_type === filterType;
-    const matchesFolder = currentFolder === "/" || file.folder_path === currentFolder;
-    
+    const matchesFolder =
+      currentFolder === "/" || file.folder_path === currentFolder;
+
     return matchesSearch && matchesFilter && matchesFolder;
   });
 
@@ -205,16 +215,22 @@ export default function MediaManager() {
     <div className="space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-bold text-gray-900">مدير الملفات والوسائط</h2>
+        <h2 className="text-2xl font-bold text-gray-900">
+          مدير الملفات والوسائط
+        </h2>
         <div className="flex items-center space-x-2 space-x-reverse">
-          <Button 
-            variant="outline" 
+          <Button
+            variant="outline"
             size="sm"
             onClick={() => setViewMode(viewMode === "grid" ? "list" : "grid")}
           >
-            {viewMode === "grid" ? <List className="w-4 h-4" /> : <Grid className="w-4 h-4" />}
+            {viewMode === "grid" ? (
+              <List className="w-4 h-4" />
+            ) : (
+              <Grid className="w-4 h-4" />
+            )}
           </Button>
-          
+
           <Dialog>
             <DialogTrigger asChild>
               <Button size="sm" className="btn-navy">
@@ -232,8 +248,8 @@ export default function MediaManager() {
               <div className="space-y-4">
                 <div>
                   <Label htmlFor="folder_name">اسم المجلد</Label>
-                  <Input 
-                    id="folder_name" 
+                  <Input
+                    id="folder_name"
                     placeholder="أدخل اسم المجلد"
                     className="text-right"
                   />
@@ -274,7 +290,7 @@ export default function MediaManager() {
             />
           </div>
         </div>
-        
+
         <Select value={filterType} onValueChange={setFilterType}>
           <SelectTrigger className="w-48">
             <SelectValue placeholder="تصفية حسب النوع" />
@@ -294,7 +310,7 @@ export default function MediaManager() {
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="/">الجذر</SelectItem>
-            {folders.map(folder => (
+            {folders.map((folder) => (
               <SelectItem key={folder.id} value={folder.path}>
                 {folder.name}
               </SelectItem>
@@ -320,16 +336,16 @@ export default function MediaManager() {
                   <Copy className="w-4 h-4 ml-2" />
                   نسخ
                 </Button>
-                <Button 
-                  size="sm" 
+                <Button
+                  size="sm"
                   variant="destructive"
                   onClick={deleteSelectedFiles}
                 >
                   <Trash className="w-4 h-4 ml-2" />
                   حذف
                 </Button>
-                <Button 
-                  size="sm" 
+                <Button
+                  size="sm"
                   variant="ghost"
                   onClick={() => setSelectedFiles([])}
                 >
@@ -369,7 +385,9 @@ export default function MediaManager() {
         <CardHeader>
           <CardTitle className="flex items-center justify-between">
             <span>الملفات ({filteredFiles.length})</span>
-            <Badge variant="secondary">{currentFolder === "/" ? "الجذر" : currentFolder}</Badge>
+            <Badge variant="secondary">
+              {currentFolder === "/" ? "الجذر" : currentFolder}
+            </Badge>
           </CardTitle>
         </CardHeader>
         <CardContent>
@@ -379,14 +397,16 @@ export default function MediaManager() {
                 <div
                   key={file.id}
                   className={`relative border rounded-lg p-3 cursor-pointer transition-all hover:shadow-md ${
-                    selectedFiles.includes(file.id) ? "border-navy-light bg-navy-light/5" : ""
+                    selectedFiles.includes(file.id)
+                      ? "border-navy-light bg-navy-light/5"
+                      : ""
                   }`}
                   onClick={() => toggleFileSelection(file.id)}
                 >
                   <div className="aspect-square flex items-center justify-center mb-2 bg-gray-50 rounded">
                     {file.file_type === "image" ? (
-                      <img 
-                        src={file.file_path} 
+                      <img
+                        src={file.file_path}
                         alt={file.alt_text || file.original_name}
                         className="w-full h-full object-cover rounded"
                       />
@@ -409,16 +429,21 @@ export default function MediaManager() {
                 <div
                   key={file.id}
                   className={`flex items-center justify-between p-3 border rounded-lg cursor-pointer transition-all hover:bg-gray-50 ${
-                    selectedFiles.includes(file.id) ? "border-navy-light bg-navy-light/5" : ""
+                    selectedFiles.includes(file.id)
+                      ? "border-navy-light bg-navy-light/5"
+                      : ""
                   }`}
                   onClick={() => toggleFileSelection(file.id)}
                 >
                   <div className="flex items-center space-x-3 space-x-reverse">
                     {getFileIcon(file.file_type, file.mime_type)}
                     <div>
-                      <p className="font-medium text-gray-900">{file.original_name}</p>
+                      <p className="font-medium text-gray-900">
+                        {file.original_name}
+                      </p>
                       <p className="text-sm text-gray-500">
-                        {formatFileSize(file.file_size)} • {new Date(file.created_at).toLocaleDateString('ar-EG')}
+                        {formatFileSize(file.file_size)} •{" "}
+                        {new Date(file.created_at).toLocaleDateString("ar-EG")}
                       </p>
                     </div>
                   </div>
