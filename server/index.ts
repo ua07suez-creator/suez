@@ -3,6 +3,7 @@ import express from "express";
 import cors from "cors";
 import { handleDemo } from "./routes/demo";
 import { loginHandler, registerHandler, authenticateToken, getCurrentUserHandler } from "./routes/auth";
+import { testConnection, testUsers, simpleLogin } from "./routes/test-auth";
 
 export function createServer() {
   const app = express();
@@ -24,6 +25,11 @@ export function createServer() {
   app.post("/api/auth/login", loginHandler);
   app.post("/api/auth/register", registerHandler);
   app.get("/api/auth/me", authenticateToken, getCurrentUserHandler);
+
+  // Test routes
+  app.get("/api/test/connection", testConnection);
+  app.get("/api/test/users", testUsers);
+  app.post("/api/test/login", simpleLogin);
 
   return app;
 }
