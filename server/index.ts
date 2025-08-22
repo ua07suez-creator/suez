@@ -9,6 +9,7 @@ import {
   getCurrentUserHandler,
 } from "./routes/auth";
 import { testConnection, testUsers, simpleLogin } from "./routes/test-auth";
+import { upgradeToAdmin } from "./routes/upgrade-user";
 import {
   requireAdmin,
   getSystemStats,
@@ -50,6 +51,9 @@ export function createServer() {
   app.get("/api/test/connection", testConnection);
   app.get("/api/test/users", testUsers);
   app.post("/api/test/login", simpleLogin);
+
+  // Upgrade user to admin
+  app.post("/api/upgrade-admin", upgradeToAdmin);
 
   // Admin routes (protected)
   app.use("/api/admin", authenticateToken, requireAdmin);
